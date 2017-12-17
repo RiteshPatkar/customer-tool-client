@@ -1,6 +1,10 @@
-<div><span>flag: </span>{{country.flag}}</div>
+<ul class="countries">
+  <li *ngFor="let country of countries">
+    <div><span>flag: </span>{{country.flag}}</div>
 <div><span>countryCode: </span>{{country.countryCode}}</div>
 <div><span>countryDescription: </span>{{country.countryDescription}}</div>
 <div><span>currencyISOCode: </span>{{country.currencyISOCode}}</div>
 <div><span>postalCodeLength: </span>{{country.postalCodeLength}}</div>
 <div><span>postalCodePosition: </span>{{country.postalCodePosition}}</div>
+  </li>
+</ul>
