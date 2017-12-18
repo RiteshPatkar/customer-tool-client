@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Country } from '../country';
-import { COUNTRIES } from '../mock-data/mock-countries';
+import { Country } from '../data/country';
+import { CountryService } from '../services/country.service';
 
 @Component({
   selector: 'app-country',
@@ -8,20 +8,22 @@ import { COUNTRIES } from '../mock-data/mock-countries';
   styleUrls: ['./country.component.css']
 })
 export class CountryComponent implements OnInit {
-  countries = COUNTRIES;
+  countries: Country[];
+  selectedCountry: Country;
 
-  country: Country = {
-    flag: 'Y',
-    countryCode: 'USA',
-    countryDescription: 'America',
-    currencyISOCode: 'USD',
-    postalCodeLength: 5,
-    postalCodePosition: 'Before'
-  };
-
-  constructor() { }
+  constructor(private countryService: CountryService) { }
 
   ngOnInit() {
+    this.getCountries();
+  }
+
+  getCountries(): void {
+    this.countryService.getCountries()
+      .subscribe(countries => this.countries = countries);
+  }
+
+  onSelect(country: Country): void {
+    this.selectedCountry = country;
   }
 
 }

@@ -1,10 +1,12 @@
 <ul class="countries">
-  <li *ngFor="let country of countries">
-    <div><span>flag: </span>{{country.flag}}</div>
-<div><span>countryCode: </span>{{country.countryCode}}</div>
-<div><span>countryDescription: </span>{{country.countryDescription}}</div>
-<div><span>currencyISOCode: </span>{{country.currencyISOCode}}</div>
-<div><span>postalCodeLength: </span>{{country.postalCodeLength}}</div>
-<div><span>postalCodePosition: </span>{{country.postalCodePosition}}</div>
-  </li>
+  <li *ngFor="let country of countries"
+  	[class.selected]="country === selectedCountry"
+    (click)="onSelect(country)">
+<span>flag: </span>{{country.flag}} 
+<span>countryCode: </span>{{country.countryCode}} 
+<span>countryDescription: </span>{{country.countryDescription}}
+<span>currencyISOCode: </span>{{country.currencyISOCode}}
+<span>postalCodeLength: </span>{{country.postalCodeLength}}
+<span>postalCodePosition: </span>{{country.postalCodePosition}}
+</li>
 </ul>
