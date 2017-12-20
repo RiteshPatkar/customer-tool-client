@@ -1,12 +1,1 @@
-<!-- <ul class="countries">
-  <li *ngFor="let country of countries"
-  	[class.selected]="country === selectedCountry"
-    (click)="onSelect(country)">
-<span>flag: </span>{{country.flag}}
-<span>countryCode: </span>{{country.countryCode}}
-<span>countryDescription: </span>{{country.countryDescription}}
-<span>currencyISOCode: </span>{{country.currencyISOCode}}
-<span>postalCodeLength: </span>{{country.postalCodeLength}}
-<span>postalCodePosition: </span>{{country.postalCodePosition}}
-</li>
-</ul> -->
+<ng2-smart-table [settings]="settings" [source] = "countries"></ng2-smart-table>

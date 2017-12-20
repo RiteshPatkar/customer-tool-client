@@ -5,7 +5,6 @@ import { CountryService } from '../services/country.service';
 @Component({
   selector: 'app-country',
   templateUrl: './country.component.html',
-  template: `<ng2-smart-table [settings]="settings" [source] = "countries"></ng2-smart-table>`,
   styleUrls: ['./country.component.css']
 })
 export class CountryComponent implements OnInit {
