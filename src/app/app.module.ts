@@ -9,17 +9,22 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { AppComponent } from './app.component';
 import { CountryComponent } from './country/country.component';
+import { CurrencyComponent } from './currency/currency.component';
+
 import { CountryService } from './services/country.service';
+import { CurrencyService } from './services/currency.service';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CountryComponent
+    CountryComponent,
+    CurrencyComponent
   ],
   //imports: [BrowserModule, HttpClientModule, HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })],
   imports: [Ng2SmartTableModule, BrowserModule],
-  providers: [CountryService],
+  providers: [CountryService, CurrencyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
