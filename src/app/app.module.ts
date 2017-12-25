@@ -13,6 +13,8 @@ import { CurrencyComponent } from './currency/currency.component';
 
 import { CountryService } from './services/country.service';
 import { CurrencyService } from './services/currency.service';
+import { TabsComponent } from './tabs/tabs.component';
+import { TabComponent } from './tab/tab.component';
 
 
 
@@ -20,7 +22,9 @@ import { CurrencyService } from './services/currency.service';
   declarations: [
     AppComponent,
     CountryComponent,
-    CurrencyComponent
+    CurrencyComponent,
+    TabsComponent,
+    TabComponent
   ],
   //imports: [BrowserModule, HttpClientModule, HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })],
   imports: [Ng2SmartTableModule, BrowserModule],

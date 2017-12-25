@@ -10,6 +10,25 @@ import { CountryService } from '../services/country.service';
 export class CountryComponent implements OnInit {
   countries: Country[];
   selectedCountry: Country;
+  settings = {
+    columns: {
+      flag: {
+      title: 'Flag'
+      },
+      countryCode: {
+      title: 'Country Code'
+      },
+      countryDescription: {
+      title: 'Desciption'
+      },
+      postalCodeLength: {
+      title: 'Postal Code Length'
+      },
+      postalCodePosition: {
+      title: 'Position'
+      }
+    }
+};
 
   constructor(private countryService: CountryService) { }
 
@@ -24,25 +43,4 @@ export class CountryComponent implements OnInit {
   onSelect(country: Country): void {
     this.selectedCountry = country;
   }
-
-  settings = {
-		columns: {
-		  flag: {
-			title: 'Flag'
-		  },
-		  countryCode: {
-			title: 'Country Code'
-		  },
-		  countryDescription: {
-			title: 'Desciption'
-		  },
-		  postalCodeLength: {
-			title: 'Postal Code Length'
-		  },
-		  postalCodePosition: {
-			title: 'Position'
-		  }
-		}
-};
-
 }

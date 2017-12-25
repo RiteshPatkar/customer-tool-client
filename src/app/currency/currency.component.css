@@ -1,0 +1,17 @@
+:host /deep/ ng2-smart-table thead > tr > th  { 
+	background:table-strip; 
+	border: 0.25px solid;
+	border-color : Grey;
+	}
+
+:host /deep/ ng2-smart-table thead > tr:first-child  { 
+	background:table-strip; 
+	border: 0.25px solid;
+	 background-color:lightgrey;
+	}
+	
+:host /deep/ ng2-smart-table tbody > tr > td { 
+	text-align: left; 
+	border :  0.25px solid;
+	border-color : Grey
+}

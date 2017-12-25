@@ -12,6 +12,23 @@ export class CurrencyComponent implements OnInit {
 currencies: Currency[];
 selectedCurrency: Currency;
 
+settings = {
+    columns: {
+      flag: {
+      title: 'Flag'
+      },
+      currencyCode: {
+      title: 'Currency Code'
+      },
+      currencyDescription: {
+      title: 'Desciption'
+      },
+      numberOfDecimals: {
+      title: 'Decimal Length'
+      }
+    }
+};
+
   constructor(private currencyService: CurrencyService) { }
 
   ngOnInit() {
@@ -26,21 +43,6 @@ selectedCurrency: Currency;
     this.selectedCurrency = currency;
   }
 
-  settings = {
-		columns: {
-		  flag: {
-			title: 'Flag'
-		  },
-		  currencyCode: {
-			title: 'Currency Code'
-		  },
-		  currencyDescription: {
-			title: 'Desciption'
-		  },
-		  postalCodeLength: {
-			title: 'Decimal Length'
-		  }
-		}
-};
+
 
 }
