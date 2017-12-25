@@ -40,7 +40,9 @@ export class CountryComponent implements OnInit {
     this.countryService.getCountries().subscribe(countries => this.countries = countries);
   }
 
-  onSelect(country: Country): void {
-    this.selectedCountry = country;
+  onSelect(data): void {
+    console.log(data);
+    this.selectedCountry = data;
+    
   }
 }

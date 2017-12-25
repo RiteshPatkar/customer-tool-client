@@ -1,1 +1,1 @@
-<ng2-smart-table [settings]="settings" [source] = "countries"></ng2-smart-table>
+<ng2-smart-table [settings]="settings" [source] = "countries" (userRowSelect)="onSelect($event)" routerLink="/currency/$event.countryCode"></ng2-smart-table>

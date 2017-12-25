@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
 import { Currency } from '../data/currency';
 import { CurrencyService } from '../services/currency.service';
 
@@ -29,14 +32,22 @@ settings = {
     }
 };
 
-  constructor(private currencyService: CurrencyService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private currencyService: CurrencyService,
+    private location: Location) { }
 
   ngOnInit() {
   this.getCurrencies();
   }
 
   getCurrencies(): void {
-    this.currencyService.getCurrencies().subscribe(currencies => this.currencies = currencies);
+     this.currencyService.getCurrencies().subscribe(currencies => this.currencies = currencies);
+  }
+  
+   getCurrenciesByCountry(): void {
+    const countryCode = this.route.snapshot.paramMap.get('countryCode');
+    this.currencyService.getCurrenciesByCountry(countryCode).subscribe(currencies => currencies = currencies);
   }
 
   onSelect(currency: Currency): void {
