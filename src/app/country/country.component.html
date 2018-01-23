@@ -1,42 +1,38 @@
-<form [formGroup] = "countryFormGroup" novalidate>
- 		<div formArrayName="countries" class="well well-lg">
-		<div style="overflow-x:auto;">
- 		 <table>
- 		 <tr>
- 		 <th class="center-block">Flag</th>
- 		 <th class="center-block">Country Description</th>
- 		 <th class="center-block">Country Code</th>
- 		 <th class="center-block">Postal Length</th>
- 		 </tr>
- 		 <tr *ngFor="let country of countries.controls; let i=index" [formGroupName]="i" >
- 		 				<td class="form-group checkbox">
-						<input type="checkbox" class="form-control"	formControlName="flag">
-				</td>
-    		 	<td class="form-group">
-    		 		<input type='text' class='form-control'	formControlName='countryDescription'>
-    		 	</td>	
-        		<td class="form-group">
-						<input class="form-control"	formControlName="countryCode">
-				</td>
-				<td class="form-group">
-						<input class="form-control"	formControlName="postalCodeLength">
-				</td>
+<form [formGroup]="countryFormGroup" (ngSubmit)="submit()"  novalidate>
+	<div formArrayName="countries" class="well well-lg">
+		<div style="overflow-x: auto;">
+			<table>
+				<tr>
+					<th class="center-block">Flag</th>
+					<th class="center-block">Country Description</th>
+					<th class="center-block">Country Code</th>
+					<th class="center-block">Postal Length</th>
+				</tr>
+				<tr *ngFor="let country of countries.controls; let i=index"
+					[formGroupName]="i">
+					<td class="form-group checkbox"><input type="checkbox"
+						class="form-control" formControlName="flag"></td>
+					<td class="form-group"><input type='text' class='form-control'
+						formControlName='countryDescription'></td>
+					<td class="form-group"><input class="form-control"
+						formControlName="countryCode"></td>
+					<td class="form-group"><input class="form-control"
+						formControlName="postalCodeLength"></td>
+					<td><button (click)="delete(i, country)" class="btn btn-success">Delete</button></td>
 
- 		 </tr>
- 		 </table>
+				</tr>
+			</table>
 		</div>
- 		</div>
-		
-    		
-
-
- <!-- <div style="margin-bottom: 1em">
-    <button type="submit"
-            [disabled]="countryFormGroup.pristine" class="btn btn-success">Save</button> &nbsp;
-    <button type="reset" (click)="revert()"
-            [disabled]="countryFormGroup.pristine" class="btn btn-danger">Revert</button>
-  </div> -->
-
+		<div style="margin-bottom: 1em">
+			<button type="add" (click)="add()" class="btn btn-danger">Add</button> &nbsp;
+			<button type="submit" [disabled]="countryFormGroup.pristine"
+				class="btn btn-success">Save</button>
+			&nbsp;
+			<!-- <button type="next" (click)="next()" class="btn btn-danger">Next</button> &nbsp; -->
+			<button type="reset" (click)="revert()"
+				[disabled]="countryFormGroup.pristine" class="btn btn-danger">Revert</button>
+		</div>
+	</div>
 </form>
 
 

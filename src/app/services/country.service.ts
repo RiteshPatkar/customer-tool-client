@@ -14,8 +14,18 @@ export class CountryService {
 
  constructor() { }
 
-  getCountries(): Observable<Country[]> {
-  return of(COUNTRIES);
+  getCountries(): Country[] {
+//     return of(COUNTRIES);
+  return COUNTRIES;
 	}
+  
+  updateCountries(countries : Country[]) : Country[] {
+    //logic to update data
+    return countries;
+  } 
+  
+  removeCountry(country : Country) : void {
+    
+  }
 
 }
