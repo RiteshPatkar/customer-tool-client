@@ -19,13 +19,25 @@
 					<td class="form-group"><input class="form-control"
 						formControlName="postalCodeLength"></td>
 					<td><button (click)="delete(i, country)" class="btn btn-success">Delete</button></td>
+				</tr>
+				
+				<ng-container *ngIf="showNewRow">
+				<tr >
+					<td class="form-group checkbox"><input type="checkbox"
+						class="form-control"></td>
+					<td class="form-group"><input type='text' class='form-control'></td>
+					<td class="form-group"><input class="form-control"></td>
+					<td class="form-group"><input class="form-control"></td>
+					<td><button class="btn btn-success">Delete</button></td>
 
 				</tr>
+				</ng-container>
+				
 			</table>
 		</div>
 		<div style="margin-bottom: 1em">
-			<button type="add" (click)="add()" class="btn btn-danger">Add</button> &nbsp;
-			<button type="submit" [disabled]="countryFormGroup.pristine"
+			<button type="add"  type="button" (click)="add()" class="btn btn-danger">Add</button> &nbsp;
+			<button type="submit" [disabled]="countryFormGroup.pristine && !showNewRow"
 				class="btn btn-success">Save</button>
 			&nbsp;
 			<!-- <button type="next" (click)="next()" class="btn btn-danger">Next</button> &nbsp; -->

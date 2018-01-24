@@ -21,33 +21,38 @@ export class CountryComponent implements OnInit {
   @Input() country: Country;
   @Input() updatedCountries: Country[];
   isLoading = false;
+  showNewRow = false;
+  addRowCountArray = [];
+  addRowCount = 0;
   
   constructor(
     private countryFormBuilder : FormBuilder,
     private countryService: CountryService) {
-    alert(1)
+    alert('constructor');
     this.createFormGroup();
   }
   
   ngOnInit() { 
-    alert(2)
+    alert('init');
     this.getCountriesFromService(); 
      this.setCountries(this.countryArray);
   }
   
   getCountriesFromService() {
+    alert('getCountriesFromService');
     this.isLoading = true;
     this.countryArray = this.countryService.getCountries();
   }
   
   
   createFormGroup() {
+    alert('createFormGroup');
     this.countryFormGroup = this.countryFormBuilder.group({
       countries : this.countryFormBuilder.array([])
     });
   }
   
-  ngOnChanges() {
+//  ngOnChanges() {
 //    this.countryFormGroup.reset({
 //      countryDescriptionFormControl: this.country.countryDescription,
 //      countryCodeFormControl: this.country.countryCode,
@@ -55,30 +60,43 @@ export class CountryComponent implements OnInit {
 //      countryFlagFormControl: this.country.flag
 //    });
 //    this.setCountries(this.countryArray);
-    this.createFormGroup();
-    this.getCountriesFromService(); 
-    this.setCountries(this.countryArray);
-  }
+//  }
   
     get countries(): FormArray {
+    alert('getCountries');
     return this.countryFormGroup.get('countries') as FormArray
   }
   
   setCountries(countries : Country[]) {
+    alert('setCountries');
     const countriesFormGroups = countries.map(country => this.countryFormBuilder.group(country));
     const countryFormArray = this.countryFormBuilder.array(countriesFormGroups);
     this.countryFormGroup.setControl('countries', countryFormArray);
   }
   
   revert() { 
-    alert(3);
-//    this.createFormGroup();
-//    this.getCountriesFromService(); 
-//    this.setCountries(this.countryArray);
-    this.ngOnChanges(); 
+    this.createFormGroup();
+    this.getCountriesFromService(); 
+    this.setCountries(this.countryArray);
   }
   
-  add() {}
+  add() {
+    alert('add');
+      this.showNewRow = true;
+//      this.addRowCount++;
+//    for(var i = 0; i<this.addRowCount; i++ ) {
+//      this.addRowCountArray.concat([i]);
+//    }
+//    this.createItem();
+  }
+//  
+//  createItem(): void {
+//  this.countryFormBuilder.group({
+//    name: '',
+//    description: '',
+//    price: ''
+//  });
+//}
   
   delete(i : number, country : Country) {
   
@@ -103,7 +121,6 @@ export class CountryComponent implements OnInit {
     this.updatedCountries = this.prepareForCRUD();
 //    this.countryService.updateCountries(this.updatedCountries).subscribe(/* error handling */);
       let updatedCountries = this.countryService.updateCountries(this.updatedCountries);
-//    this.ngOnChanges();
        this.createFormGroup();
     this.setCountries(this.updatedCountries);
   }
