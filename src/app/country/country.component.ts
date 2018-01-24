@@ -22,8 +22,6 @@ export class CountryComponent implements OnInit {
   @Input() updatedCountries: Country[];
   isLoading = false;
   showNewRow = false;
-  addRowCountArray = [];
-  addRowCount = 0;
   
   constructor(
     private countryFormBuilder : FormBuilder,
@@ -48,7 +46,13 @@ export class CountryComponent implements OnInit {
   createFormGroup() {
     alert('createFormGroup');
     this.countryFormGroup = this.countryFormBuilder.group({
-      countries : this.countryFormBuilder.array([])
+      countries : this.countryFormBuilder.array([]),
+      country : this.countryFormBuilder.group({
+        flag: ['', Validators.required],
+        countryDescription: ['', Validators.required],
+        countryCode: ['', Validators.required],
+        postalCodeLength: '',
+      })
     });
   }
   
@@ -63,7 +67,6 @@ export class CountryComponent implements OnInit {
 //  }
   
     get countries(): FormArray {
-    alert('getCountries');
     return this.countryFormGroup.get('countries') as FormArray
   }
   
@@ -81,22 +84,9 @@ export class CountryComponent implements OnInit {
   }
   
   add() {
-    alert('add');
-      this.showNewRow = true;
-//      this.addRowCount++;
-//    for(var i = 0; i<this.addRowCount; i++ ) {
-//      this.addRowCountArray.concat([i]);
-//    }
-//    this.createItem();
+    this.showNewRow = true;
+    this.countries.push(this.countryFormBuilder.group(new Country()));
   }
-//  
-//  createItem(): void {
-//  this.countryFormBuilder.group({
-//    name: '',
-//    description: '',
-//    price: ''
-//  });
-//}
   
   delete(i : number, country : Country) {
   
@@ -110,6 +100,15 @@ export class CountryComponent implements OnInit {
     this.setCountries(this.updatedCountries);
   }
   
+  removeRow() {
+    this.showNewRow = false;
+    
+     this.countryFormGroup.get('country.flag').setValue('');
+     this.countryFormGroup.get('country.countryDescription').setValue('');
+    this.countryFormGroup.get('country.countryCode').setValue('');
+    this.countryFormGroup.get('country.postalCodeLength').setValue('');
+  }
+  
   next() {
   if(!this.countryFormGroup.pristine){
     this.submit();
@@ -118,6 +117,7 @@ export class CountryComponent implements OnInit {
   
    submit() {
     alert('submit')
+      this.showNewRow = false;
     this.updatedCountries = this.prepareForCRUD();
 //    this.countryService.updateCountries(this.updatedCountries).subscribe(/* error handling */);
       let updatedCountries = this.countryService.updateCountries(this.updatedCountries);
@@ -129,8 +129,10 @@ export class CountryComponent implements OnInit {
     const formModel = this.countryFormGroup.value;
     const countriesDeepCopy: Country[] = formModel.countries.map(
       (country: Country) => Object.assign({}, country)
-    );
+    ).fill(formModel.country);
+      alert(countriesDeepCopy.length);
     return countriesDeepCopy;
   }
+  
 
 }

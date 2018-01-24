@@ -3,6 +3,6 @@ export class Country {
   countryCode: string;
   countryDescription: string;
   currencyISOCode: string;
-  postalCodeLength: number;
+  postalCodeLength: Number;
   postalCodePosition: string;
 }

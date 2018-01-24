@@ -1,5 +1,5 @@
 <form [formGroup]="countryFormGroup" (ngSubmit)="submit()"  novalidate>
-	<div formArrayName="countries" class="well well-lg">
+	<div  formArrayName="countries" class="well well-lg">
 		<div style="overflow-x: auto;">
 			<table>
 				<tr>
@@ -8,7 +8,7 @@
 					<th class="center-block">Country Code</th>
 					<th class="center-block">Postal Length</th>
 				</tr>
-				<tr *ngFor="let country of countries.controls; let i=index"
+				<tr  *ngFor="let country of countries.controls; let i=index"
 					[formGroupName]="i">
 					<td class="form-group checkbox"><input type="checkbox"
 						class="form-control" formControlName="flag"></td>
@@ -20,24 +20,12 @@
 						formControlName="postalCodeLength"></td>
 					<td><button (click)="delete(i, country)" class="btn btn-success">Delete</button></td>
 				</tr>
-				
-				<ng-container *ngIf="showNewRow">
-				<tr >
-					<td class="form-group checkbox"><input type="checkbox"
-						class="form-control"></td>
-					<td class="form-group"><input type='text' class='form-control'></td>
-					<td class="form-group"><input class="form-control"></td>
-					<td class="form-group"><input class="form-control"></td>
-					<td><button class="btn btn-success">Delete</button></td>
-
-				</tr>
-				</ng-container>
-				
 			</table>
 		</div>
 		<div style="margin-bottom: 1em">
-			<button type="add"  type="button" (click)="add()" class="btn btn-danger">Add</button> &nbsp;
-			<button type="submit" [disabled]="countryFormGroup.pristine && !showNewRow"
+			<button type="button" (click)="add()"
+			class="btn btn-danger">Add</button> &nbsp;
+			<button type="submit" 
 				class="btn btn-success">Save</button>
 			&nbsp;
 			<!-- <button type="next" (click)="next()" class="btn btn-danger">Next</button> &nbsp; -->
