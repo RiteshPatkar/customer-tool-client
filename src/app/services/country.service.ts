@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
-import { Country } from '../data/country';
+import { CountryArrayDataModel,  CountryDataModel} from '../data/countrytab-data-model';
 import { COUNTRIES } from '../mock-data/mock-countries';
 
 @Injectable()
@@ -14,18 +14,17 @@ export class CountryService {
 
  constructor() { }
 
-  getCountries(): Country[] {
+  getCountries(): CountryArrayDataModel {
 //     return of(COUNTRIES);
   return COUNTRIES;
 	}
-  
-  updateCountries(countries : Country[]) : Country[] {
+
+  updateCountries(countries : CountryArrayDataModel) : CountryArrayDataModel {
     //logic to update data
     return countries;
-  } 
-  
-  removeCountry(country : Country) : void {
-    
+  }
+
+  removeCountry(country : CountryDataModel) : void {
   }
 
 }

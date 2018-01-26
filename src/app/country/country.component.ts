@@ -1,6 +1,6 @@
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { Country } from '../data/country';
+import { CountryArrayDataModel,  CountryDataModel} from '../data/countrytab-data-model';
 import { COUNTRIES } from '../mock-data/mock-countries';
 import { CountryService } from '../services/country.service';
 import { Observable }        from 'rxjs/Observable';
@@ -14,122 +14,92 @@ import { IndexKind } from "typescript";
 })
 
 export class CountryComponent implements OnInit {
-  
-  @Input() country: Country;
-  @Input() updatedCountries: Country[];
-  
-//  countryArray: Observable<Country[]>;
-   countryArray: Country[];
+
+  @Input() countryArrayData: CountryArrayDataModel;
+
   countryFormGroup : FormGroup;
+  nameChangeLog: string[] = [];
+ // countryDataFromService : Observable<CountryArrayDataModel>;
+  countryDataFromService : CountryArrayDataModel;
   isLoading = false;
   showNewRow = false;
-  
+
   constructor(
     private countryFormBuilder : FormBuilder,
     private countryService: CountryService) {
-    alert('constructor');
     this.createFormGroup();
   }
-  
+
    createFormGroup() {
-    alert('createFormGroup');
     this.countryFormGroup = this.countryFormBuilder.group({
-      countries : this.countryFormBuilder.array([])
+      countriesOnScreen : this.countryFormBuilder.array([])
     });
   }
-  
+
+  ngOnInit() {
+    this.getCountriesFromService();
+	this.setCountries(this.countryDataFromService.countries);
+  }
+
+  getCountriesFromService() {
+	this.isLoading = true;
+	this.countryDataFromService = this.countryService.getCountries();
+		//	.finally(() => this.isLoading = false);
+  }
+
    ngOnChanges() {
-    alert('onChange');
     this.countryFormGroup.reset({
     });
-      this.setCountries(this.updatedCountries);
+      this.setCountries(this.countryArrayData.countries);
   }
-  
-  get countries(): FormArray {
-    return this.countryFormGroup.get('countries') as FormArray
+
+  get countriesOnScreen(): FormArray {
+    return this.countryFormGroup.get('countriesOnScreen') as FormArray
   }
-  
-  //compare again with example
-   setCountries(countries : Country[]) {
-    alert('setCountries');
+
+   setCountries(countries : CountryDataModel[]) {
     const countriesFormGroups = countries.map(country => this.countryFormBuilder.group(country));
     const countryFormArray = this.countryFormBuilder.array(countriesFormGroups);
-    this.countryFormGroup.setControl('countries', countryFormArray);
+    this.countryFormGroup.setControl('countriesOnScreen', countryFormArray);
   }
-  
+
     add() {
-    alert('in Add');
     this.showNewRow = true;
-    this.countries.push(this.countryFormBuilder.group(new Country()));
+    this.countriesOnScreen.push(this.countryFormBuilder.group(new CountryDataModel()));
   }
-  
+
     submit() {
-    alert('submit')
-      this.showNewRow = false;
-    this.updatedCountries = this.prepareForCRUD();
-     alert(JSON.stringify(this.updatedCountries));
-//    this.countryService.updateCountries(this.updatedCountries).subscribe(/* error handling */);
-      let updatedCountries = this.countryService.updateCountries(this.updatedCountries);
-       this.createFormGroup();
-     alert(JSON.stringify(this.updatedCountries));
-    this.setCountries(this.updatedCountries);
+    	this.showNewRow = false;
+    	this.countryArrayData = this.prepareForSubmit();
+//    this.countryService.updateCountries(this.countryArrayData).subscribe(/* error handling */);
+      	let updatedCountries = this.countryService.updateCountries(this.countryArrayData);
+		this.ngOnChanges();
   }
-  
-    prepareForCRUD(): Country[] {
-    const formModel = this.countryFormGroup.value;
-      alert(JSON.stringify(formModel));
-    const countriesDeepCopy: Country[] = formModel.countries.map(
-      (country: Country) => Object.assign({}, country));
-      alert(countriesDeepCopy.length);
-    return countriesDeepCopy;
+
+    prepareForSubmit(): CountryArrayDataModel {
+    	const formModel = this.countryFormGroup.value;
+		const countriesOnScreenDeepCopy: CountryDataModel[] = formModel.countriesOnScreen.map(
+      		(country: CountryDataModel) => Object.assign({}, country));
+		const saveCountryArrayDataModel : CountryArrayDataModel = {
+			countries : countriesOnScreenDeepCopy
+		}
+
+    return saveCountryArrayDataModel;
   }
-  
-  revert() { 
-    this.createFormGroup();
-    this.getCountriesFromService(); 
-    this.setCountries(this.countryArray);
-  }
-  
-  ngOnInit() { 
-    alert('init');
-    this.getCountriesFromService(); 
-     this.setCountries(this.countryArray);
-  }
-  
-  getCountriesFromService() {
-    alert('getCountriesFromService');
-    this.isLoading = true;
-    this.countryArray = this.countryService.getCountries();
-  }
-  
-  delete(i : number, country : Country) {
-  
-    //remove content from db
+
+ revert() {
+	this.ngOnChanges();
+	}
+
+  delete(i : number, country : CountryDataModel) {
     this.countryService.removeCountry(country);
-    
-    this.updatedCountries = this.prepareForCRUD();
-    this.updatedCountries.splice(i, 1);
-    
-    this.createFormGroup();
-    this.setCountries(this.updatedCountries);
+	this.countriesOnScreen.removeAt(i);
   }
-  
-  removeRow() {
-    this.showNewRow = false;
-    
-     this.countryFormGroup.get('country.flag').setValue('');
-     this.countryFormGroup.get('country.countryDescription').setValue('');
-    this.countryFormGroup.get('country.countryCode').setValue('');
-    this.countryFormGroup.get('country.postalCodeLength').setValue('');
-  }
-  
+
+//Not used Yet
   next() {
   if(!this.countryFormGroup.pristine){
     this.submit();
     }
   }
-  
-
-  
-
 }

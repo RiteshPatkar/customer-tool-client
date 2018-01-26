@@ -1,17 +1,13 @@
-:host /deep/ ng2-smart-table thead > tr > th  { 
-	background:table-strip; 
-	border: 0.25px solid;
-	border-color : Grey;
-	}
-
-:host /deep/ ng2-smart-table thead > tr:first-child  { 
-	background:table-strip; 
-	border: 0.25px solid;
-	 background-color:lightgrey;
-	}
-	
-:host /deep/ ng2-smart-table tbody > tr > td { 
-	text-align: left; 
-	border :  0.25px solid;
-	border-color : Grey
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
 }
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}

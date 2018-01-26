@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-
-import { Currency } from '../data/currency';
+import { CurrencyArrayDataModel,  CurrencyDataModel} from '../data/currencytab-data-model';
+import { CURRENCIES } from '../mock-data/mock-currencies';
 import { CurrencyService } from '../services/currency.service';
+import { Observable }        from 'rxjs/Observable';
+import 'rxjs/add/operator/finally';
+import { IndexKind } from "typescript";
 
 @Component({
   selector: 'app-currency',
@@ -12,48 +16,91 @@ import { CurrencyService } from '../services/currency.service';
 })
 export class CurrencyComponent implements OnInit {
 
-currencies: Currency[];
-selectedCurrency: Currency;
+@Input() currencyArrayData: CurrencyArrayDataModel;
 
-settings = {
-    columns: {
-      flag: {
-      title: 'Flag'
-      },
-      currencyCode: {
-      title: 'Currency Code'
-      },
-      currencyDescription: {
-      title: 'Desciption'
-      },
-      numberOfDecimals: {
-      title: 'Decimal Length'
-      }
-    }
-};
+currencyFormGroup : FormGroup;
+nameChangeLog: string[] = [];
+// currencyDataFromService : Observable<CurrencyArrayDataModel>;
+currencyDataFromService : CurrencyArrayDataModel;
+isLoading = false;
+showNewRow = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private currencyService: CurrencyService,
-    private location: Location) { }
+constructor(
+  private currencyFormBuilder : FormBuilder,
+  private currencyService: CurrencyService) {
+  this.createFormGroup();
+}
 
-  ngOnInit() {
-  this.getCurrencies();
+ createFormGroup() {
+  this.currencyFormGroup = this.currencyFormBuilder.group({
+	currenciesOnScreen : this.currencyFormBuilder.array([])
+  });
+}
+
+ngOnInit() {
+  this.getCurrenciesFromService();
+  this.setCurrencies(this.currencyDataFromService.currencies);
+}
+
+getCurrenciesFromService() {
+  this.isLoading = true;
+  this.currencyDataFromService = this.currencyService.getCurrenciesByCountry([]);
+	  //	.finally(() => this.isLoading = false);
+}
+
+ ngOnChanges() {
+  this.currencyFormGroup.reset({
+  });
+	this.setCurrencies(this.currencyArrayData.currencies);
+}
+
+get currenciesOnScreen(): FormArray {
+  return this.currencyFormGroup.get('currenciesOnScreen') as FormArray
+}
+
+ setCurrencies(currencies : CurrencyDataModel[]) {
+  const currenciesFormGroups = currencies.map(currency => this.currencyFormBuilder.group(currency));
+  const currencyFormArray = this.currencyFormBuilder.array(currenciesFormGroups);
+  this.currencyFormGroup.setControl('currenciesOnScreen', currencyFormArray);
+}
+
+  add() {
+  this.showNewRow = true;
+  this.currenciesOnScreen.push(this.currencyFormBuilder.group(new CurrencyDataModel()));
+}
+
+  submit() {
+	  this.showNewRow = false;
+	  this.currencyArrayData = this.prepareForSubmit();
+//    this.currencyService.updateCurrencies(this.currencyArrayData).subscribe(/* error handling */);
+	  let updatedCurrencies = this.currencyService.updateCurrencies(this.currencyArrayData);
+	  this.ngOnChanges();
+}
+
+  prepareForSubmit(): CurrencyArrayDataModel {
+	  const formModel = this.currencyFormGroup.value;
+	  const currenciesOnScreenDeepCopy: CurrencyDataModel[] = formModel.currenciesOnScreen.map(
+		  (currency: CurrencyDataModel) => Object.assign({}, currency));
+	  const saveCurrencyArrayDataModel : CurrencyArrayDataModel = {
+		  currencies : currenciesOnScreenDeepCopy
+	  }
+
+  return saveCurrencyArrayDataModel;
+}
+
+revert() {
+  this.ngOnChanges();
   }
 
-  getCurrencies(): void {
-     this.currencyService.getCurrencies().subscribe(currencies => this.currencies = currencies);
+delete(i : number, currency : CurrencyDataModel) {
+  this.currencyService.removeCurrency(currency);
+  this.currenciesOnScreen.removeAt(i);
+}
+
+//Not used Yet
+next() {
+if(!this.currencyFormGroup.pristine){
+  this.submit();
   }
-  
-   getCurrenciesByCountry(): void {
-    const countryCode = this.route.snapshot.paramMap.get('countryCode');
-    this.currencyService.getCurrenciesByCountry(countryCode).subscribe(currencies => currencies = currencies);
-  }
-
-  onSelect(currency: Currency): void {
-    this.selectedCurrency = currency;
-  }
-
-
-
+}
 }
