@@ -15,16 +15,19 @@ import { CurrencyComponent } from './currency/currency.component';
 
 import { CountryService } from './services/country.service';
 import { CurrencyService } from './services/currency.service';
+import { CalendarService } from './services/calendar.service';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CountryComponent,
-    CurrencyComponent
+    CurrencyComponent,
+    CalendarComponent
   ],
   //imports: [BrowserModule, HttpClientModule, HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })],
   imports: [Ng2SmartTableModule, BrowserModule, AppRoutingModule, ReactiveFormsModule ],
-  providers: [CountryService, CurrencyService],
+  providers: [CountryService, CurrencyService, CalendarService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

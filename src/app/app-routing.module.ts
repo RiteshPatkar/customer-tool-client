@@ -3,12 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CountryComponent } from './country/country.component';
 import { CurrencyComponent } from './currency/currency.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 const routes: Routes = [
 { path: '', redirectTo: '/countries', pathMatch: 'full' },
   { path: 'countries', component: CountryComponent },
   { path: 'currencies', component: CurrencyComponent },
-  { path: 'currency/:countryCode', component: CurrencyComponent }
+  { path: 'currency/:countryCode', component: CurrencyComponent },
+  { path: 'calendars', component: CalendarComponent },
 ];
 
 @NgModule({
