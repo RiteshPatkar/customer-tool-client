@@ -1,0 +1,123 @@
+<form [formGroup]="companyFormGroup" (ngSubmit)="submit()"  novalidate>
+	<div  formArrayName="companiesOnScreen" class="well well-lg">
+		<div style="overflow-x: auto;">
+			<table>
+				<tr>
+					<th class="center-block">Action</th>
+					<th class="center-block">Reject Code</th>
+					<th class="center-block">Company Code</th>
+					<th class="center-block">Short Code</th>
+					<th class="center-block">Description</th>
+					<th class="center-block">Description2</th>
+					<th class="center-block">CorporateCode Id</th>
+					<th class="center-block">TXP</th>
+					<th class="center-block">OtherId Type</th>
+					<th class="center-block">OtherId</th>
+					<th class="center-block">Non Resident</th>
+					<th class="center-block">Issuer Of Interchange</th>
+					<th class="center-block">Currency</th>
+					<th class="center-block">Global Currecy</th>
+					<th class="center-block">Global Currency Rate</th>
+					<th class="center-block">AddressLine1</th>
+					<th class="center-block">AddressLine2</th>
+					<th class="center-block">City</th>
+					<th class="center-block">Zip/Postal Code</th>
+					<th class="center-block">State/Province</th>
+					<th class="center-block">Country</th>
+					<th class="center-block">Homepage</th>
+					<th class="center-block">Contact Name</th>
+					<th class="center-block">Contact Department</th>
+					<th class="center-block">Contact Phone Number</th>
+					<th class="center-block">Contact Fax</th>
+					<th class="center-block">Contact Email</th>
+					<th class="center-block">Intermediary</th>
+					<th class="center-block">Counter Party</th>
+					<th class="center-block">Contact</th>
+					<th class="center-block">Company Consolidation Code</th>
+					<th class="center-block">Interface Code</th>
+					<th class="center-block">Legal Form</th>
+					<th class="center-block">Capital</th>
+					<th class="center-block">Legal Representative 1</th>
+					<th class="center-block">Position1</th>
+					<th class="center-block">Legal Representative 2</th>
+					<th class="center-block">position2</th>
+					<th class="center-block">Legal Free Text 1</th>
+					<th class="center-block">Legal Free Text 2</th>
+					<th class="center-block">Legal Free Text 3</th>
+					<th class="center-block">Legal Free Text 4</th>
+					<th class="center-block">Legal Free Text 5</th>
+					<th class="center-block">BEI</th>
+					<th class="center-block">Default Group</th>
+					<th class="center-block">SEPA Creditor Identifier</th>
+					<th class="center-block">LEI</th>
+					<th class="center-block">Accounting Calendar</th>
+					<th class="center-block">Distinguished Name</th>
+				</tr>
+				<tr  *ngFor="let company of companiesOnScreen.controls; let i=index" [formGroupName]="i">
+				
+					<td class="form-group"><input class="form-control" formControlName="action"></td>
+					<td class="form-group"><input class="form-control" formControlName="rejectCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="companyCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="shortCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="description"></td>
+					<td class="form-group"><input class="form-control" formControlName="description2"></td>
+					<td class="form-group"><input class="form-control" formControlName="corporateCodeId"></td>
+					<td class="form-group"><input class="form-control" formControlName="txp"></td>
+					<td class="form-group"><input class="form-control" formControlName="otherIdType"></td>
+					<td class="form-group"><input class="form-control" formControlName="otherId"></td>
+					<td class="form-group"><input class="form-control" formControlName="nonResident"></td>
+					<td class="form-group"><input class="form-control" formControlName="issuerOfInterchange"></td>
+					<td class="form-group"><input class="form-control" formControlName="currency"></td>
+					<td class="form-group"><input class="form-control" formControlName="glCurrecy"></td>
+					<td class="form-group"><input class="form-control" formControlName="glCurrencyRate"></td>
+					<td class="form-group"><input class="form-control" formControlName="addressLine1"></td>
+					<td class="form-group"><input class="form-control" formControlName="addressLine2"></td>
+					<td class="form-group"><input class="form-control" formControlName="city"></td>
+					<td class="form-group"><input class="form-control" formControlName="zip"></td>
+					<td class="form-group"><input class="form-control" formControlName="state"></td>
+					<td class="form-group"><input class="form-control" formControlName="country"></td>
+					<td class="form-group"><input class="form-control" formControlName="homepage"></td>
+					<td class="form-group"><input class="form-control" formControlName="contactName"></td>
+					<td class="form-group"><input class="form-control" formControlName="contactDepartment"></td>
+					<td class="form-group"><input class="form-control" formControlName="contactPhoneNumber"></td>
+					<td class="form-group"><input class="form-control" formControlName="contactFax"></td>
+					<td class="form-group"><input class="form-control" formControlName="contactEmail"></td>
+					<td class="form-group"><input class="form-control" formControlName="intermediary"></td>
+					<td class="form-group"><input class="form-control" formControlName="counterParty"></td>
+					<td class="form-group"><input class="form-control" formControlName="contact"></td>
+					<td class="form-group"><input class="form-control" formControlName="companyConsolidationCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="interfaceCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="legalForm"></td>
+					<td class="form-group"><input class="form-control" formControlName="capital"></td>
+					<td class="form-group"><input class="form-control" formControlName="legalRepresentative1"></td>
+					<td class="form-group"><input class="form-control" formControlName="position1"></td>
+					<td class="form-group"><input class="form-control" formControlName="legalRepresentative2"></td>
+					<td class="form-group"><input class="form-control" formControlName="position2"></td>
+					<td class="form-group"><input class="form-control" formControlName="legalFreeText1"></td>
+					<td class="form-group"><input class="form-control" formControlName="legalFreeText2"></td>
+					<td class="form-group"><input class="form-control" formControlName="legalFreeText3"></td>
+					<td class="form-group"><input class="form-control" formControlName="legalFreeText4"></td>
+					<td class="form-group"><input class="form-control" formControlName="legalFreeText5"></td>
+					<td class="form-group"><input class="form-control" formControlName="bei"></td>
+					<td class="form-group"><input class="form-control" formControlName="defaultGroup"></td>
+					<td class="form-group"><input class="form-control" formControlName="sepaCreditorIdentifier"></td>
+					<td class="form-group"><input class="form-control" formControlName="lei"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountingCalendar"></td>
+					<td class="form-group"><input class="form-control" formControlName="distinguishedName"></td>
+
+					<td><button type="button" (click)="delete(i, company)" class="btn btn-success">Delete</button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div style="margin-bottom: 1em">
+		<button type="button" (click)="add()" class="btn btn-danger">Add</button> &nbsp;
+		<button type="submit" class="btn btn-success">Save</button> &nbsp;
+		<!-- <button type="next" (click)="next()" class="btn btn-danger">Next</button> &nbsp; -->
+		<button type="reset" (click)="revert()" [disabled]="companyFormGroup.pristine" class="btn btn-danger">Revert</button>
+	</div>
+</form>
+
+
+<p>Form value: {{ companyFormGroup.value | json }}</p>
+<p>Form status: {{ companyFormGroup.status | json }}</p>

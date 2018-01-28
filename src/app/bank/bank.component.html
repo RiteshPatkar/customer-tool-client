@@ -1,0 +1,34 @@
+<form [formGroup]="bankFormGroup" (ngSubmit)="submit()"  novalidate>
+	<div  formArrayName="banksOnScreen" class="well well-lg">
+		<div style="overflow-x: auto;">
+			<table>
+				<tr>
+					<th class="center-block">Bank Code</th>
+					<th class="center-block">Bank Description</th>
+					<th class="center-block">Inter Company</th>
+					<th class="center-block">Deal Intermediary</th>
+					<th class="center-block">Deal CounterPart</th>
+				</tr>
+				<tr  *ngFor="let bank of banksOnScreen.controls; let i=index" [formGroupName]="i">
+					<td class="form-group"><input class="form-control" formControlName="bankCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="description"></td>
+					<td class="form-group"><input class="form-control" formControlName="interCompany"></td>
+					<td class="form-group"><input class="form-control" formControlName="dealIntermediary"></td>
+					<td class="form-group"><input class="form-control" formControlName="dealCounterPart"></td>
+
+					<td><button type="button" (click)="delete(i, bank)" class="btn btn-success">Delete</button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div style="margin-bottom: 1em">
+		<button type="button" (click)="add()" class="btn btn-danger">Add</button> &nbsp;
+		<button type="submit" class="btn btn-success">Save</button> &nbsp;
+		<!-- <button type="next" (click)="next()" class="btn btn-danger">Next</button> &nbsp; -->
+		<button type="reset" (click)="revert()" [disabled]="bankFormGroup.pristine" class="btn btn-danger">Revert</button>
+	</div>
+</form>
+
+
+<p>Form value: {{ bankFormGroup.value | json }}</p>
+<p>Form status: {{ bankFormGroup.status | json }}</p>

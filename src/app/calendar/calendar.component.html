@@ -1,19 +1,35 @@
-<form [formGroup]="countryFormGroup" (ngSubmit)="submit()"  novalidate>
-	<div  formArrayName="countriesOnScreen" class="well well-lg">
+<p>Form value: {{ calendarFormGroup.value | json }}</p>
+<p>Form status: {{ calendarFormGroup.status | json }}</p>
+
+<form [formGroup]="calendarFormGroup" (ngSubmit)="submit()"  novalidate>
+	<div  formArrayName="calendarsOnScreen" class="well well-lg">
 		<div style="overflow-x: auto;">
 			<table>
 				<tr>
+					<th class="center-block">Calendar Code</th>
+					<th class="center-block">Calendar Description</th>
+					<th class="center-block">Closed Days</th>
+					<th class="center-block">Date</th>
 					<th class="center-block">Flag</th>
-					<th class="center-block">Country Description</th>
-					<th class="center-block">Country Code</th>
-					<th class="center-block">Postal Length</th>
 				</tr>
-				<tr  *ngFor="let country of countriesOnScreen.controls; let i=index" [formGroupName]="i">
-					<td class="form-group checkbox"><input type="checkbox" class="form-control" formControlName="flag"></td>
-					<td class="form-group"><input type="text" class="form-control" formControlName="countryDescription"></td>
-					<td class="form-group"><input class="form-control" formControlName="countryCode"></td>
-					<td class="form-group"><input class="form-control" formControlName="postalCodeLength"></td>
-					<td><button type="button" (click)="delete(i, country)" class="btn btn-success">Delete</button></td>
+				<tr  *ngFor="let calendar of calendarsOnScreen.controls; let i=index" [formGroupName]="i">
+					<td class="form-group"><input class="form-control" formControlName="calendarCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="calendarDescription"></td>
+					<td class="form-group"><input class="form-control" formControlName="closedDays"></td>
+					 <td colspan="2" class="form-group">
+					<div  formArrayName="datesAndFlags" class="well well-lg">
+						<div style="overflow-x: auto;">
+						<table>
+							<tr *ngFor="let dateAndFlag of datesAndFlags.controls; let j=index" [formGroupName]="j">
+								<td class="form-group"><input class="form-control" formControlName="date"></td>
+								<td class="form-group"><input type="checkbox" class="form-control" formControlName="flag"></td>
+							</tr>
+						</table>
+						</div>
+					</div>
+					</td>  
+					<td><button type="button" (click)="delete(i, calendar)" class="btn btn-success">Delete</button></td>
+					
 				</tr>
 			</table>
 		</div>
@@ -22,10 +38,9 @@
 		<button type="button" (click)="add()" class="btn btn-danger">Add</button> &nbsp;
 		<button type="submit" class="btn btn-success">Save</button> &nbsp;
 		<!-- <button type="next" (click)="next()" class="btn btn-danger">Next</button> &nbsp; -->
-		<button type="reset" (click)="revert()" [disabled]="countryFormGroup.pristine" class="btn btn-danger">Revert</button>
+		<button type="reset" (click)="revert()" [disabled]="calendarFormGroup.pristine" class="btn btn-danger">Revert</button>
 	</div>
 </form>
 
 
-<p>Form value: {{ countryFormGroup.value | json }}</p>
-<p>Form status: {{ countryFormGroup.status | json }}</p>
+
