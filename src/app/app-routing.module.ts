@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { BankComponent } from './bank/bank.component';
+import { BankBranchComponent } from './bankbranch/bankbranch.component';
 import { CountryComponent } from './country/country.component';
 import { CurrencyComponent } from './currency/currency.component';
+import { CompanyComponent } from './company/company.component';
 import { CalendarComponent } from './calendar/calendar.component';
 
 const routes: Routes = [
@@ -12,7 +14,9 @@ const routes: Routes = [
   { path: 'currencies', component: CurrencyComponent },
   { path: 'currency/:countryCode', component: CurrencyComponent },
   { path: 'calendars', component: CalendarComponent },
+   { path: 'companies', component: CompanyComponent },
   { path: 'banks', component: BankComponent },
+    { path: 'bankbranches', component: BankBranchComponent },
 ];
 
 @NgModule({

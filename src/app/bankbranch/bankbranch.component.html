@@ -1,0 +1,96 @@
+<form [formGroup]="bankBranchFormGroup" (ngSubmit)="submit()"  novalidate>
+	<div  formArrayName="bankBranchesOnScreen" class="well well-lg">
+		<div style="overflow-x: auto;">
+			<table>
+				<tr>
+					<th class="center-block">Action</th>
+					<th class="center-block">Rejection Code = 0;
+					<th class="center-block">Code</th>
+					<th class="center-block">Description</th>
+					<th class="center-block">Description2</th>
+					<th class="center-block">Intercompany = 0;
+					<th class="center-block">Main Branch Of Country = 0;
+					<th class="center-block">Bank Code</th>
+					<th class="center-block">Account Location</th>
+					<th class="center-block">BIC</th>
+					<th class="center-block">Corp ID Code</th>
+					<th class="center-block">Other ID Type = 0;
+					<th class="center-block">Other ID</th>
+					<th class="center-block">Intermediary</th>
+					<th class="center-block">AddressLine1</th>
+					<th class="center-block">AddressLine2</th>
+					<th class="center-block">City</th>
+					<th class="center-block">Zip</th>
+					<th class="center-block">State</th>
+					<th class="center-block">Country</th>
+					<th class="center-block">Home Page</th>
+					<th class="center-block">Bank Contact Name</th>
+					<th class="center-block">Bank Contact Department</th>
+					<th class="center-block">Bank Contact PhoneNumber</th>
+					<th class="center-block">Bank Contact FaxNumber</th>
+					<th class="center-block">Bank Contact Email</th>
+					<th class="center-block">Calendar Code</th>
+					<th class="center-block">Interface Code</th>
+					<th class="center-block">Responder Code</th>
+					<th class="center-block">Service Name</th>
+					<th class="center-block">User Zone1</th>
+					<th class="center-block">User Zone2</th>
+					<th class="center-block">User Zone3</th>
+					<th class="center-block">User Zone4</th>
+					<th class="center-block">User Zone5</th>
+					<th class="center-block">Memo</th>
+				</tr>
+				<tr  *ngFor="let bank of bankBranchesOnScreen.controls; let i=index" [formGroupName]="i">
+					<td class="form-group"><input class="form-control" formControlName="action"></td>
+					<td class="form-group"><input class="form-control" formControlName="rejectionCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="code"></td>
+					<td class="form-group"><input class="form-control" formControlName="description"></td>
+					<td class="form-group"><input class="form-control" formControlName="description2"></td>
+					<td class="form-group"><input class="form-control" formControlName="intercompany"></td>
+					<td class="form-group"><input class="form-control" formControlName="mainBranchOfCountry"></td>
+					<td class="form-group"><input class="form-control" formControlName="bankCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountLocation"></td>
+					<td class="form-group"><input class="form-control" formControlName="bic"></td>
+					<td class="form-group"><input class="form-control" formControlName="corpIdCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="otherIdType"></td>
+					<td class="form-group"><input class="form-control" formControlName="otherId"></td>
+					<td class="form-group"><input class="form-control" formControlName="intermediary"></td>
+					<td class="form-group"><input class="form-control" formControlName="addressLine1"></td>
+					<td class="form-group"><input class="form-control" formControlName="addressLine2"></td>
+					<td class="form-group"><input class="form-control" formControlName="city"></td>
+					<td class="form-group"><input class="form-control" formControlName="zip"></td>
+					<td class="form-group"><input class="form-control" formControlName="state"></td>
+					<td class="form-group"><input class="form-control" formControlName="country"></td>
+					<td class="form-group"><input class="form-control" formControlName="homePage"></td>
+					<td class="form-group"><input class="form-control" formControlName="bankContactName"></td>
+					<td class="form-group"><input class="form-control" formControlName="bankContactDepartment"></td>
+					<td class="form-group"><input class="form-control" formControlName="bankContactPhoneNumber"></td>
+					<td class="form-group"><input class="form-control" formControlName="bankContactFaxNumber"></td>
+					<td class="form-group"><input class="form-control" formControlName="bankContactEmail"></td>
+					<td class="form-group"><input class="form-control" formControlName="calendarCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="interfacecode"></td>
+					<td class="form-group"><input class="form-control" formControlName="respondercode"></td>
+					<td class="form-group"><input class="form-control" formControlName="serviceName"></td>
+					<td class="form-group"><input class="form-control" formControlName="userZone1"></td>
+					<td class="form-group"><input class="form-control" formControlName="userZone2"></td>
+					<td class="form-group"><input class="form-control" formControlName="userZone3"></td>
+					<td class="form-group"><input class="form-control" formControlName="userZone4"></td>
+					<td class="form-group"><input class="form-control" formControlName="userZone5"></td>
+					<td class="form-group"><input class="form-control" formControlName="memo"></td>
+
+					<td><button type="button" (click)="delete(i, bank)" class="btn btn-success">Delete</button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div style="margin-bottom: 1em">
+		<button type="button" (click)="add()" class="btn btn-danger">Add</button> &nbsp;
+		<button type="submit" class="btn btn-success">Save</button> &nbsp;
+		<!-- <button type="next" (click)="next()" class="btn btn-danger">Next</button> &nbsp; -->
+		<button type="reset" (click)="revert()" [disabled]="bankBranchFormGroup.pristine" class="btn btn-danger">Revert</button>
+	</div>
+</form>
+
+
+<p>Form value: {{ bankBranchFormGroup.value | json }}</p>
+<p>Form status: {{ bankBranchFormGroup.status | json }}</p>

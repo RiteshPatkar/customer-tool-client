@@ -11,16 +11,19 @@ import { AppComponent } from './app.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { BankComponent } from './bank/bank.component';
+import { BankBranchComponent } from './bankbranch/bankbranch.component';
 import { CountryComponent } from './country/country.component';
 import { CurrencyComponent } from './currency/currency.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { CompanyComponent } from './company/company.component';
 
 import { BankService } from './services/bank.service';
+import { BankBranchService } from './services/bankbranch.service';
 import { CountryService } from './services/country.service';
 import { CurrencyService } from './services/currency.service';
 import { CalendarService } from './services/calendar.service';
 import { CompanyService } from './services/company.service';
-import { CompanyComponent } from './company/company.component';
+
 
 @NgModule({
   declarations: [
@@ -29,11 +32,12 @@ import { CompanyComponent } from './company/company.component';
     CurrencyComponent,
     CalendarComponent,
     BankComponent,
-    CompanyComponent
+    CompanyComponent,
+    BankBranchComponent
   ],
   //imports: [BrowserModule, HttpClientModule, HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })],
   imports: [Ng2SmartTableModule, BrowserModule, AppRoutingModule, ReactiveFormsModule ],
-  providers: [CountryService, CurrencyService, CalendarService, BankService, CompanyService],
+  providers: [CountryService, CurrencyService, CalendarService, BankService, CompanyService, BankBranchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
