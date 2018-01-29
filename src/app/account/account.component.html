@@ -1,0 +1,193 @@
+<form [formGroup]="accountFormGroup" (ngSubmit)="submit()"  novalidate>
+	<div  formArrayName="accountsOnScreen" class="well well-lg">
+		<div style="overflow-x: auto;">
+			<table>
+				<tr>
+					<th class="center-block">Action</th>
+					<th class="center-block">Reject code</th>
+					<th class="center-block">Account type</th>
+					<th class="center-block">Account Code</th>
+					<th class="center-block">Description</th>
+					<th class="center-block">Issuer number</th>
+					<th class="center-block">Currency</th>
+					<th class="center-block">Company Code</th>
+					<th class="center-block">Bank Branch Code</th>
+					<th class="center-block">Bank layout</th>
+					<th class="center-block">Account ID type</th>
+					<th class="center-block">Payment Account ID</th>
+					<th class="center-block">Statement Account Number</th>
+					<th class="center-block">Account Id Description</th>
+					<th class="center-block">Street 1</th>
+					<th class="center-block">Street 2</th>
+					<th class="center-block">City</th>
+					<th class="center-block">ZIP</th>
+					<th class="center-block">State</th>
+					<th class="center-block">Country</th>
+					<th class="center-block">Homepage</th>
+					<th class="center-block">Name</th>
+					<th class="center-block">Dept</th>
+					<th class="center-block">Tel</th>
+					<th class="center-block">Fax</th>
+					<th class="center-block">Email</th>
+					<th class="center-block">Calendar</th>
+					<th class="center-block">ZBA generator</th>
+					<th class="center-block">ZBA identifier</th>
+					<th class="center-block">Generate ZBA flow</th>
+					<th class="center-block">Chart of Account</th>
+					<th class="center-block">GL Code</th>
+					<th class="center-block">Internal GL account</th>
+					<th class="center-block">Consider one day float transactions</th>
+					<th class="center-block">Consider two day float transactions</th>
+					<th class="center-block">Description 2</th>
+					<th class="center-block">Establishment</th>
+					<th class="center-block">Establishment account</th>
+					<th class="center-block">Consider three day float transactions</th>
+					<th class="center-block">Consider investment position transactions</th>
+					<th class="center-block">Integrate End-of-day statements</th>
+					<th class="center-block">Integrate Intraday statements</th>
+					<th class="center-block">Closed account</th>
+					<th class="center-block">Closing date</th>
+					<th class="center-block">Default Account group</th>
+					<th class="center-block">International transfer (Issuer number)</th>
+					<th class="center-block">Maturity transfer (Issuer number)</th>
+					<th class="center-block">Domestic direct debit (Issuer number)</th>
+					<th class="center-block">International direct debit (Issuer number)</th>
+					<th class="center-block">Payables drafts (Issuer number)</th>
+					<th class="center-block">Receivables drafts (Issuer number)</th>
+					<th class="center-block">Include account in GL reconciliation</th>
+					<th class="center-block">Consider bank statements from</th>
+					<th class="center-block">Initial accounting balance</th>
+					<th class="center-block">Initial accounting balance date</th>
+					<th class="center-block">Settlement account</th>
+					<th class="center-block">Counterparty settlement account</th>
+					<th class="center-block">Account category 1</th>
+					<th class="center-block">Account category 2</th>
+					<th class="center-block">Account category 3</th>
+					<th class="center-block">Account category 4</th>
+					<th class="center-block">Account category 5</th>
+					<th class="center-block">User zone 1</th>
+					<th class="center-block">User zone 2</th>
+					<th class="center-block">User zone 3</th>
+					<th class="center-block">User zone 4</th>
+					<th class="center-block">User zone 5</th>
+					<th class="center-block">Fee statement identifier</th>
+					<th class="center-block">Account category 6</th>
+					<th class="center-block">Account category 7</th>
+					<th class="center-block">Account category 8</th>
+					<th class="center-block">Account category 9</th>
+					<th class="center-block">Account category 10</th>
+					<th class="center-block">Interest bearing</th>
+					<th class="center-block">Centrally managed</th>
+					<th class="center-block">Owner name</th>
+					<th class="center-block">Reconciler name</th>
+					<th class="center-block">Free text 1</th>
+					<th class="center-block">Free text 2</th>
+					<th class="center-block">Free text 3</th>
+					<th class="center-block">Free amount 1</th>
+					<th class="center-block">Free amount 2</th>
+					<th class="center-block">Free amount 3</th>
+					<th class="center-block">Account available for payments</th>
+					<th class="center-block">Account Nature</th>
+				</tr>
+				<tr  *ngFor="let bank of accountsOnScreen.controls; let i=index" [formGroupName]="i">
+
+					<td class="form-group"><input class="form-control" formControlName="action"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="currencyCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="companyCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="bankBranchCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="countryCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="calendarCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="userId"></td>
+					<td class="form-group"><input class="form-control" formControlName="rejectCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountType"></td>
+					<td class="form-group"><input class="form-control" formControlName="description"></td>
+					<td class="form-group"><input class="form-control" formControlName="issuerNumber"></td>
+					<td class="form-group"><input class="form-control" formControlName="bankLayout"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountIdType"></td>
+					<td class="form-group"><input class="form-control" formControlName="paymentAccountId"></td>
+					<td class="form-group"><input class="form-control" formControlName="statementAccountNumber"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountIdDescription"></td>
+					<td class="form-group"><input class="form-control" formControlName="stree1"></td>
+					<td class="form-group"><input class="form-control" formControlName="street2"></td>
+					<td class="form-group"><input class="form-control" formControlName="city"></td>
+					<td class="form-group"><input class="form-control" formControlName="zip"></td>
+					<td class="form-group"><input class="form-control" formControlName="state"></td>
+					<td class="form-group"><input class="form-control" formControlName="homePage"></td>
+					<td class="form-group"><input class="form-control" formControlName="name"></td>
+					<td class="form-group"><input class="form-control" formControlName="department"></td>
+					<td class="form-group"><input class="form-control" formControlName="contactPhoneNumber"></td>
+					<td class="form-group"><input class="form-control" formControlName="contactFaxNumber"></td>
+					<td class="form-group"><input class="form-control" formControlName="contactEmail"></td>
+					<td class="form-group"><input class="form-control" formControlName="zbaGenerator"></td>
+					<td class="form-group"><input class="form-control" formControlName="zbaIdentifier"></td>
+					<td class="form-group"><input class="form-control" formControlName="generateZbaFlow"></td>
+					<td class="form-group"><input class="form-control" formControlName="chartOfAccount"></td>
+					<td class="form-group"><input class="form-control" formControlName="glCode"></td>
+					<td class="form-group"><input class="form-control" formControlName="internalGlAccount"></td>
+					<td class="form-group"><input class="form-control" formControlName="considorOneDayFloatTransactions"></td>
+					<td class="form-group"><input class="form-control" formControlName="considorTwoDayFloatTransactions"></td>
+					<td class="form-group"><input class="form-control" formControlName="description2"></td>
+					<td class="form-group"><input class="form-control" formControlName="establishment"></td>
+					<td class="form-group"><input class="form-control" formControlName="establishmentAccount"></td>
+					<td class="form-group"><input class="form-control" formControlName="considorThreeDayFloatTransactions"></td>
+					<td class="form-group"><input class="form-control" formControlName="considorInvestmentPositionTransactions"></td>
+					<td class="form-group"><input class="form-control" formControlName="integrateEndOfDayStatements"></td>
+					<td class="form-group"><input class="form-control" formControlName="integrateIntraDayStatements"></td>
+					<td class="form-group"><input class="form-control" formControlName="closedAccount"></td>
+					<td class="form-group"><input class="form-control" formControlName="closingDate"></td>
+					<td class="form-group"><input class="form-control" formControlName="defaultAccountGroup"></td>
+					<td class="form-group"><input class="form-control" formControlName="internationalTransfer"></td>
+					<td class="form-group"><input class="form-control" formControlName="MaturityTransfer"></td>
+					<td class="form-group"><input class="form-control" formControlName="domesticDirectDebit"></td>
+					<td class="form-group"><input class="form-control" formControlName="internationalDirectDebit"></td>
+					<td class="form-group"><input class="form-control" formControlName="payableDrafts"></td>
+					<td class="form-group"><input class="form-control" formControlName="receivableDrafts"></td>
+					<td class="form-group"><input class="form-control" formControlName="includeAccountInGLReconciliation"></td>
+					<td class="form-group"><input class="form-control" formControlName="considorBankStatementsFron"></td>
+					<td class="form-group"><input class="form-control" formControlName="initialAccountingBalance"></td>
+					<td class="form-group"><input class="form-control" formControlName="initialAccountingBalanceDate"></td>
+					<td class="form-group"><input class="form-control" formControlName="settlementAccount"></td>
+					<td class="form-group"><input class="form-control" formControlName="counterPartySettlementAccount"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCategory1"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCategory2"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCategory3"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCategory4"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCategory5"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCategory6"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCategory7"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCategory8"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCategory9"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountCategory10"></td>
+					<td class="form-group"><input class="form-control" formControlName="userZone1"></td>
+					<td class="form-group"><input class="form-control" formControlName="userZone2"></td>
+					<td class="form-group"><input class="form-control" formControlName="userZone3"></td>
+					<td class="form-group"><input class="form-control" formControlName="userZone4"></td>
+					<td class="form-group"><input class="form-control" formControlName="userZone5"></td>
+					<td class="form-group"><input class="form-control" formControlName="freeStatementIdentifier"></td>
+					<td class="form-group"><input class="form-control" formControlName="interestBearing"></td>
+					<td class="form-group"><input class="form-control" formControlName="centrallymanaged"></td>
+					<td class="form-group"><input class="form-control" formControlName="ownerName"></td>
+					<td class="form-group"><input class="form-control" formControlName="reconcilerName"></td>
+					<td class="form-group"><input class="form-control" formControlName="freetext1"></td>
+					<td class="form-group"><input class="form-control" formControlName="freetext2"></td>
+					<td class="form-group"><input class="form-control" formControlName="freetext3"></td>
+					<td class="form-group"><input class="form-control" formControlName="freeAmount1"></td>
+					<td class="form-group"><input class="form-control" formControlName="freeAmount2"></td>
+					<td class="form-group"><input class="form-control" formControlName="freeAmount3"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountAvailableForPayments"></td>
+					<td class="form-group"><input class="form-control" formControlName="accountNature"></td>
+
+					<td><button type="button" (click)="delete(i, bank)" class="btn btn-success">Delete</button></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div style="margin-bottom: 1em">
+		<button type="button" class="btn btn-success">Previous</button> &nbsp;
+		<button type="button" (click)="add()" class="btn btn-danger">Add</button> &nbsp;
+		<button type="submit" class="btn btn-success">Save</button> &nbsp;
+		<!-- <button type="next" (click)="next()" class="btn btn-danger">Next</button> &nbsp; -->
+		<!--  <button type="reset" (click)="revert()" [disabled]="countryFormGroup.pristine" class="btn btn-danger">Revert</button> -->
+	</div>
+</form>

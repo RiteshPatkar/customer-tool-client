@@ -17,12 +17,14 @@ import { CurrencyComponent } from './currency/currency.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CompanyComponent } from './company/company.component';
 
+import { AccountService } from './services/account.service';
 import { BankService } from './services/bank.service';
 import { BankBranchService } from './services/bankbranch.service';
 import { CountryService } from './services/country.service';
 import { CurrencyService } from './services/currency.service';
 import { CalendarService } from './services/calendar.service';
 import { CompanyService } from './services/company.service';
+import { AccountComponent } from './account/account.component';
 
 
 @NgModule({
@@ -33,11 +35,12 @@ import { CompanyService } from './services/company.service';
     CalendarComponent,
     BankComponent,
     CompanyComponent,
-    BankBranchComponent
+    BankBranchComponent,
+    AccountComponent
   ],
   //imports: [BrowserModule, HttpClientModule, HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })],
   imports: [Ng2SmartTableModule, BrowserModule, AppRoutingModule, ReactiveFormsModule ],
-  providers: [CountryService, CurrencyService, CalendarService, BankService, CompanyService, BankBranchService],
+  providers: [CountryService, CurrencyService, CalendarService, BankService, CompanyService, BankBranchService, AccountService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
