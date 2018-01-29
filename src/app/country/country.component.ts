@@ -1,11 +1,13 @@
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { CountryArrayDataModel,  CountryDataModel} from '../data/countrytab-data-model';
-import { COUNTRIES } from '../mock-data/mock-countries';
-import { CountryService } from '../services/country.service';
+import { Router } from '@angular/router';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
+
+import { CountryArrayDataModel,  CountryDataModel} from '../data/countrytab-data-model';
+import { COUNTRIES } from '../mock-data/mock-countries';
+import { CountryService } from '../services/country.service';
 
 @Component({
   selector: 'app-country',
@@ -26,6 +28,7 @@ export class CountryComponent implements OnInit {
 
   constructor(
     private countryFormBuilder : FormBuilder,
+    private router: Router,
     private countryService: CountryService) {
     this.createFormGroup();
   }
@@ -96,10 +99,15 @@ export class CountryComponent implements OnInit {
 	this.countriesOnScreen.removeAt(i);
   }
 
-//Not used Yet
   next() {
   if(!this.countryFormGroup.pristine){
     this.submit();
     }
+    this.router.navigate(['/currencies']);
   }
+   
+  nextTab() {
+  	this.router.navigate(['/currencies']);
+  }
+
 }
