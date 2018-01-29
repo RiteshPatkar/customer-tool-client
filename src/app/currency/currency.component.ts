@@ -8,6 +8,7 @@ import { CurrencyService } from '../services/currency.service';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-currency',
@@ -27,6 +28,7 @@ showNewRow = false;
 
 constructor(
   private currencyFormBuilder : FormBuilder,
+  private router: Router,
   private currencyService: CurrencyService) {
   this.createFormGroup();
 }
@@ -97,10 +99,18 @@ delete(i : number, currency : CurrencyDataModel) {
   this.currenciesOnScreen.removeAt(i);
 }
 
-//Not used Yet
 next() {
 if(!this.currencyFormGroup.pristine){
   this.submit();
   }
+  this.router.navigate(['/calendars']);
+}
+
+previousTab() {
+	this.router.navigate(['/countries']);
+}
+
+nextTab() {
+  this.router.navigate(['/calendars']);
 }
 }

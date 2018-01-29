@@ -19,11 +19,11 @@
 		</div>
 	</div>
 	<div style="margin-bottom: 1em">
-		<button type="button" class="btn btn-success">Pevious</button> &nbsp;
+		<button type="button" (click)="previousTab()" class="btn btn-success">Pevious</button> &nbsp;
 		<button type="button" (click)="add()" class="btn btn-danger">Add</button> &nbsp;
 		<button type="submit" class="btn btn-success">Save</button> &nbsp;
-		<button type="button" class="btn btn-success">Save & Next</button> &nbsp;
-		<button type="button" class="btn btn-success">Next</button> &nbsp;
+		<button type="button" (click)="next()" class="btn btn-success">Save & Next</button> &nbsp;
+		<button type="button" (click)="nextTab()" class="btn btn-success">Next</button> &nbsp;
 		<!-- <button type="next" (click)="next()" class="btn btn-danger">Next</button> &nbsp; -->
 		<!--  <button type="reset" (click)="revert()" [disabled]="countryFormGroup.pristine" class="btn btn-danger">Revert</button> -->
 	</div>

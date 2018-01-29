@@ -6,6 +6,7 @@ import { BankBranchService } from '../services/bankbranch.service';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bankbranch',
@@ -25,6 +26,7 @@ export class BankBranchComponent implements OnInit {
 
   constructor(
     private bankBranchFormBuilder : FormBuilder,
+	private router: Router,
     private bankBranchService: BankBranchService) {
     this.createFormGroup();
   }
@@ -95,10 +97,18 @@ export class BankBranchComponent implements OnInit {
   this.bankBranchesOnScreen.removeAt(i);
   }
 
-//Not used Yet
   next() {
   if(!this.bankBranchFormGroup.pristine){
     this.submit();
     }
+    this.router.navigate(['/accounts']);
+  }
+
+  previousTab() {
+  	this.router.navigate(['/banks']);
+  }
+
+  nextTab() {
+    this.router.navigate(['/accounts']);
   }
 }

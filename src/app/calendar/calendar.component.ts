@@ -8,6 +8,7 @@ import {CalendarService} from '../services/calendar.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import {IndexKind} from "typescript";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-calendar',
@@ -30,13 +31,14 @@ export class CalendarComponent implements OnInit {
 
   constructor(
     private calendarFormBuilder: FormBuilder,
+	private router: Router,
     private calendarService: CalendarService) {
     alert("constructor");
     this.createFormGroup();
 //    this.createChildFormGroup();
   }
 
-  
+
   createFormGroup() {
     alert("createFormGroup");
     this.calendarFormGroup = this.calendarFormBuilder.group({
@@ -44,7 +46,7 @@ export class CalendarComponent implements OnInit {
 //          calendarsOnScreen : this.calendarFormBuilder.array([this.init1()])
     });
   }
-  
+
     createChildFormGroup() {
     alert("createChildFormGroup");
     this.dateAndFlagFormGroup = this.calendarFormBuilder.group({
@@ -69,7 +71,7 @@ export class CalendarComponent implements OnInit {
   }
 
 
-  
+
   ngOnInit() {
     alert("ngOnInit");
     this.getCalendarsFromService();
@@ -161,11 +163,18 @@ export class CalendarComponent implements OnInit {
     this.calendarsOnScreen.removeAt(i);
   }
 
-  //Not used Yet
   next() {
-    alert('next');
-    if (!this.calendarFormGroup.pristine) {
-      this.submit();
+  if(!this.calendarFormGroup.pristine){
+    this.submit();
     }
+    this.router.navigate(['/companies']);
+  }
+
+  previousTab() {
+  	this.router.navigate(['/currencies']);
+  }
+
+  nextTab() {
+    this.router.navigate(['/companies']);
   }
 }

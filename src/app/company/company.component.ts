@@ -6,6 +6,7 @@ import { CompanyService } from '../services/company.service';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-company',
@@ -25,6 +26,7 @@ export class CompanyComponent implements OnInit {
 
   constructor(
     private companyFormBuilder : FormBuilder,
+	private router: Router,
     private companyService: CompanyService) {
     this.createFormGroup();
   }
@@ -95,10 +97,18 @@ export class CompanyComponent implements OnInit {
   this.companiesOnScreen.removeAt(i);
   }
 
-//Not used Yet
   next() {
   if(!this.companyFormGroup.pristine){
     this.submit();
     }
+    this.router.navigate(['/banks']);
+  }
+
+  previousTab() {
+  	this.router.navigate(['/calendars']);
+  }
+
+  nextTab() {
+    this.router.navigate(['/banks']);
   }
 }

@@ -6,6 +6,7 @@ import { AccountService } from '../services/account.service';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
@@ -25,6 +26,7 @@ export class AccountComponent implements OnInit {
 
   constructor(
     private accountFormBuilder : FormBuilder,
+	private router: Router,
     private accountService: AccountService) {
     this.createFormGroup();
   }
@@ -95,10 +97,7 @@ export class AccountComponent implements OnInit {
   this.accountsOnScreen.removeAt(i);
   }
 
-//Not used Yet
-  next() {
-  if(!this.accountFormGroup.pristine){
-    this.submit();
-    }
+  previousTab() {
+  	this.router.navigate(['/bankbranches']);
   }
 }
