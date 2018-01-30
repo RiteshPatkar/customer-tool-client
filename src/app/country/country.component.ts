@@ -5,7 +5,7 @@ import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
 
-import { CountryArrayDataModel,  CountryDataModel, CountryCodeDataModel} from '../data/countrytab-data-model';
+import { CountryArrayDataModel,  CountryDataModel} from '../data/countrytab-data-model';
 import { COUNTRIES, COUNTRYCODES } from '../mock-data/mock-countries';
 import { CountryService } from '../services/country.service';
 

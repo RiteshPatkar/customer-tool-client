@@ -1,4 +1,4 @@
-import { CountryArrayDataModel,  CountryDataModel, CountryCodeDataModel} from '../data/countrytab-data-model';
+import { CountryArrayDataModel,  CountryDataModel} from '../data/countrytab-data-model';
 
 export const COUNTRIES: CountryArrayDataModel = {
 countries: [
@@ -11,11 +11,4 @@ countries: [
 ]
 }
 
-export const COUNTRYCODES : CountryCodeDataModel[] = [
-{countryCode: 'US'},
-{countryCode: 'AD'},
-{countryCode: 'AA'},
-{countryCode: 'AF'},
-{countryCode: 'AG'},
-{countryCode: 'FR'},
-]
+export const COUNTRYCODES = ['US', 'AD', 'AA', 'AF', 'AG', 'FR']

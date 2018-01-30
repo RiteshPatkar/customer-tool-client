@@ -1,6 +1,6 @@
 export class CountryArrayDataModel {
   countries: CountryDataModel[];
-  countryCodes: CountryCodeDataModel[]; 
+//  countryCodes: CountryCodeDataModel[]; 
 }
 
 export class CountryDataModel {
@@ -12,6 +12,6 @@ export class CountryDataModel {
   postalCodePosition = '';
 }
 
-export class CountryCodeDataModel {
-	countryCode = '';
-}
+//export class CountryCodeDataModel {
+//	countryCode = '';
+//}
