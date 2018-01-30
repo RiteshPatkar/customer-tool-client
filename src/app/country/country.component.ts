@@ -5,8 +5,8 @@ import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
 
-import { CountryArrayDataModel,  CountryDataModel} from '../data/countrytab-data-model';
-import { COUNTRIES } from '../mock-data/mock-countries';
+import { CountryArrayDataModel,  CountryDataModel, CountryCodeDataModel} from '../data/countrytab-data-model';
+import { COUNTRIES, COUNTRYCODES } from '../mock-data/mock-countries';
 import { CountryService } from '../services/country.service';
 
 @Component({
@@ -25,6 +25,7 @@ export class CountryComponent implements OnInit {
   countryDataFromService : CountryArrayDataModel;
   isLoading = false;
   showNewRow = false;
+  countryCodes = COUNTRYCODES;
 
   constructor(
     private countryFormBuilder : FormBuilder,
