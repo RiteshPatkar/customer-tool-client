@@ -9,7 +9,7 @@
 					<th class="center-block">Number Of Decimals</th>
 				</tr>
 				<tr  *ngFor="let currency of currenciesOnScreen.controls; let i=index" [formGroupName]="i">
-					<td class="form-group checkbox"><input type="checkbox" class="form-control" formControlName="flag"></td>
+					<td class="form-group"><input class="form-control" formControlName="flag"></td>
 					<td class="form-group"><input type="text" class="form-control" formControlName="currencyCode"></td>
 					<td class="form-group"><input class="form-control" formControlName="currencyDescription"></td>
 					<td class="form-group"><input class="form-control" formControlName="numberOfDecimals"></td>
