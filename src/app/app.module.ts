@@ -2,7 +2,7 @@ import {ReactiveFormsModule} from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 //import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
@@ -16,6 +16,7 @@ import { CountryComponent } from './country/country.component';
 import { CurrencyComponent } from './currency/currency.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CompanyComponent } from './company/company.component';
+import { AccountComponent } from './account/account.component';
 
 import { AccountService } from './services/account.service';
 import { BankService } from './services/bank.service';
@@ -24,7 +25,7 @@ import { CountryService } from './services/country.service';
 import { CurrencyService } from './services/currency.service';
 import { CalendarService } from './services/calendar.service';
 import { CompanyService } from './services/company.service';
-import { AccountComponent } from './account/account.component';
+import { MessageService } from './services/message.service';
 
 
 @NgModule({
@@ -39,8 +40,8 @@ import { AccountComponent } from './account/account.component';
     AccountComponent
   ],
   //imports: [BrowserModule, HttpClientModule, HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })],
-  imports: [Ng2SmartTableModule, BrowserModule, AppRoutingModule, ReactiveFormsModule ],
-  providers: [CountryService, CurrencyService, CalendarService, BankService, CompanyService, BankBranchService, AccountService],
+  imports: [Ng2SmartTableModule, BrowserModule, AppRoutingModule, ReactiveFormsModule, HttpClientModule ],
+  providers: [CountryService, CurrencyService, CalendarService, BankService, CompanyService, BankBranchService, AccountService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

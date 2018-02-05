@@ -11,15 +11,17 @@
 				<tr  *ngFor="let country of countriesOnScreen.controls; let i=index" [formGroupName]="i">
 					<td class="form-group"><input class="form-control" formControlName="flag"></td>
 					<td class="form-group"><input type="text" class="form-control" formControlName="countryDescription"></td>
-					<td class="form-group">
+					 <td class="form-group">
 						<select class="form-control" formControlName="countryCode">
-							<option *ngFor = "let countryCode of countryCodes" [value]= "countryCode">
+							<option *ngFor = "let countryCode of countryCodes.countryCodes" [value]= "countryCode">
 								{{countryCode}}
 							</option>
+						
+							
 						</select>
 					</td>
 					<td class="form-group"><input class="form-control" formControlName="postalCodeLength"></td>
-					<td><button type="button" (click)="delete(i, country)" class="btn btn-success">Delete</button></td>
+					<td><button type="button" (click)="delete(i, country.value)" class="btn btn-success">Delete</button></td>
 				</tr>
 			</table>
 		</div>
@@ -33,3 +35,7 @@
 		<!--  <button type="reset" (click)="revert()" [disabled]="countryFormGroup.pristine" class="btn btn-danger">Revert</button> -->
 	</div>
 </form>
+
+
+<p>Form value: {{ countryFormGroup.value | json }}</p>
+<p>Form status: {{ countryFormGroup.status | json }}</p>

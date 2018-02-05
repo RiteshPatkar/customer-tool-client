@@ -4,9 +4,7 @@ import { Router } from '@angular/router';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
-
-import { CountryArrayDataModel,  CountryDataModel} from '../data/countrytab-data-model';
-import { COUNTRIES, COUNTRYCODES } from '../mock-data/mock-countries';
+import { CountryArrayDataModel,  CountryDataModel, CountryISOCodeArrayDataModel} from '../data/countrytab-data-model';
 import { CountryService } from '../services/country.service';
 
 @Component({
@@ -21,11 +19,9 @@ export class CountryComponent implements OnInit {
 
   countryFormGroup : FormGroup;
   nameChangeLog: string[] = [];
- // countryDataFromService : Observable<CountryArrayDataModel>;
-  countryDataFromService : CountryArrayDataModel;
   isLoading = false;
   showNewRow = false;
-  countryCodes = COUNTRYCODES;
+  countryCodes : CountryISOCodeArrayDataModel;
 
   constructor(
     private countryFormBuilder : FormBuilder,
@@ -42,19 +38,23 @@ export class CountryComponent implements OnInit {
 
   ngOnInit() {
     this.getCountriesFromService();
-	this.setCountries(this.countryDataFromService.countries);
+    this.getCountryISOCodesFromService();
+  }
+  
+  getCountryISOCodesFromService() {
+    this.countryService.getCountryCodes().subscribe(result => this.countryCodes = result)
   }
 
   getCountriesFromService() {
 	this.isLoading = true;
-	this.countryDataFromService = this.countryService.getCountries();
+	this.countryService.getCountries(1).subscribe(countryArrayData => this.setCountries(countryArrayData.userCountries))
 		//	.finally(() => this.isLoading = false);
   }
 
    ngOnChanges() {
     this.countryFormGroup.reset({
     });
-      this.setCountries(this.countryArrayData.countries);
+      this.setCountries(this.countryArrayData.userCountries);
   }
 
   get countriesOnScreen(): FormArray {
@@ -85,7 +85,7 @@ export class CountryComponent implements OnInit {
 		const countriesOnScreenDeepCopy: CountryDataModel[] = formModel.countriesOnScreen.map(
       		(country: CountryDataModel) => Object.assign({}, country));
 		const saveCountryArrayDataModel : CountryArrayDataModel = {
-			countries : countriesOnScreenDeepCopy
+			userCountries : countriesOnScreenDeepCopy
 		}
 
     return saveCountryArrayDataModel;

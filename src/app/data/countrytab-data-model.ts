@@ -1,5 +1,5 @@
 export class CountryArrayDataModel {
-  countries: CountryDataModel[];
+  userCountries: CountryDataModel[];
 //  countryCodes: CountryCodeDataModel[]; 
 }
 
@@ -10,8 +10,10 @@ export class CountryDataModel {
   currencyISOCode = '';
   postalCodeLength = 0;
   postalCodePosition = '';
+  userId = '';
 }
 
-//export class CountryCodeDataModel {
-//	countryCode = '';
-//}
+export class CountryISOCodeArrayDataModel {
+  countryCodes: any[]; 
+}
+
