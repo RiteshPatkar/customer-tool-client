@@ -4,12 +4,13 @@ export class CountryArrayDataModel {
 }
 
 export class CountryDataModel {
+  id = 0;
   flag = '';
   countryCode = '';
   countryDescription = '';
   currencyISOCode = '';
   postalCodeLength = 0;
-  postalCodePosition = '';
+  postalCodePosition = 0;
   userId = '';
 }
 

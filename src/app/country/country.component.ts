@@ -75,8 +75,8 @@ export class CountryComponent implements OnInit {
     submit() {
     	this.showNewRow = false;
     	this.countryArrayData = this.prepareForSubmit();
-//    this.countryService.updateCountries(this.countryArrayData).subscribe(/* error handling */);
-      	let updatedCountries = this.countryService.updateCountries(this.countryArrayData);
+    this.countryService.updateCountries(this.countryArrayData).subscribe();
+//      	let updatedCountries = this.countryService.updateCountries(this.countryArrayData);
 		this.ngOnChanges();
   }
 
@@ -96,7 +96,7 @@ export class CountryComponent implements OnInit {
 	}
 
   delete(i : number, country : CountryDataModel) {
-    this.countryService.removeCountry(country);
+    this.countryService.removeCountry(country).subscribe();
 	this.countriesOnScreen.removeAt(i);
   }
 
