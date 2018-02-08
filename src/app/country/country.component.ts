@@ -1,6 +1,6 @@
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute  } from '@angular/router';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
@@ -26,6 +26,7 @@ export class CountryComponent implements OnInit {
   constructor(
     private countryFormBuilder : FormBuilder,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private countryService: CountryService) {
     this.createFormGroup();
   }
@@ -46,8 +47,9 @@ export class CountryComponent implements OnInit {
   }
 
   getCountriesFromService() {
+   const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
 	this.isLoading = true;
-	this.countryService.getCountries(1).subscribe(countryArrayData => this.setCountries(countryArrayData.userCountries))
+	this.countryService.getCountries(userId).subscribe(countryArrayData => this.setCountries(countryArrayData.userCountries))
 		//	.finally(() => this.isLoading = false);
   }
 
@@ -84,6 +86,12 @@ export class CountryComponent implements OnInit {
     	const formModel = this.countryFormGroup.value;
 		const countriesOnScreenDeepCopy: CountryDataModel[] = formModel.countriesOnScreen.map(
       		(country: CountryDataModel) => Object.assign({}, country));
+      
+      for(let country of countriesOnScreenDeepCopy) {
+        alert(this.activatedRoute.snapshot.paramMap.get('userId'));
+        country.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+      }
+      
 		const saveCountryArrayDataModel : CountryArrayDataModel = {
 			userCountries : countriesOnScreenDeepCopy
 		}

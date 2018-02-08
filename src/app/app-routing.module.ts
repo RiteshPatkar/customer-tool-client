@@ -10,8 +10,8 @@ import { CompanyComponent } from './company/company.component';
 import { CalendarComponent } from './calendar/calendar.component';
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/countries', pathMatch: 'full' },
-  	{ path: 'countries', component: CountryComponent },
+	{ path: '', redirectTo: '/countries/:userId', pathMatch: 'full' },
+  	{ path: 'countries/:userId', component: CountryComponent },
   	{ path: 'currencies', component: CurrencyComponent },
   	{ path: 'currency/:countryCode', component: CurrencyComponent },
   	{ path: 'calendars', component: CalendarComponent },

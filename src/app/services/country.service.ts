@@ -14,13 +14,17 @@ const httpOptions = {
 
 @Injectable()
 export class CountryService {
-  private countryUrl = 'http://192.168.0.11:8080/country'; //URL to API
+//  private countryUrl = 'http://192.168.0.11:8080/country'; //URL to API
+    private countryUrl = 'http://localhost:8080/country'; //URL to API
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
   /** GET Countries Based on userId **/
   getCountries(userId : number): Observable<CountryArrayDataModel> {
-    const url = this.countryUrl + '/user/1';
+    const url = this.countryUrl + '/user/'+userId;
+    alert('in get')
+    alert(userId);
+    alert(url)
     return this.http.get<CountryArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched countries for userId = ${userId}`)),
