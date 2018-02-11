@@ -3,8 +3,11 @@ export class CurrencyArrayDataModel {
 }
 
 export class CurrencyDataModel {
+  id = 0;
+  userId = '';
+  countryCode = '';
   flag='';
   currencyCode='';
-  currencyDescription='';
+  description='';
   numberOfDecimals=0;
 }

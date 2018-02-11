@@ -1,14 +1,12 @@
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { CurrencyArrayDataModel,  CurrencyDataModel} from '../data/currencytab-data-model';
-import { CURRENCIES } from '../mock-data/mock-currencies';
-import { CurrencyService } from '../services/currency.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { CurrencyArrayDataModel,  CurrencyDataModel} from '../data/currencytab-data-model';
+import { CurrencyService } from '../services/currency.service';
 
 @Component({
   selector: 'app-currency',
@@ -21,14 +19,13 @@ export class CurrencyComponent implements OnInit {
 
 currencyFormGroup : FormGroup;
 nameChangeLog: string[] = [];
-// currencyDataFromService : Observable<CurrencyArrayDataModel>;
-currencyDataFromService : CurrencyArrayDataModel;
 isLoading = false;
 showNewRow = false;
 
 constructor(
   private currencyFormBuilder : FormBuilder,
   private router: Router,
+  private activatedRoute: ActivatedRoute,
   private currencyService: CurrencyService) {
   this.createFormGroup();
 }
@@ -41,12 +38,20 @@ constructor(
 
 ngOnInit() {
   this.getCurrenciesFromService();
-  this.setCurrencies(this.currencyDataFromService.currencies);
 }
 
 getCurrenciesFromService() {
   this.isLoading = true;
-  this.currencyDataFromService = this.currencyService.getCurrenciesByCountry([]);
+  const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
+  const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
+  alert(selectCountryCodes)
+  if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
+//    var countryCodeArray = selectCountryCodes.split(',');
+//    if(countryCodeArray.length > 0) {
+    this.currencyService.getCurrenciesByCountry(userId, selectCountryCodes).subscribe(currencyArrayData => this.setCurrencies(currencyArrayData.currencies))
+    return;
+    }
+    this.currencyService.getCurrencies(userId).subscribe(currencyArrayData => this.setCurrencies(currencyArrayData.currencies));
 	  //	.finally(() => this.isLoading = false);
 }
 
@@ -61,6 +66,8 @@ get currenciesOnScreen(): FormArray {
 }
 
  setCurrencies(currencies : CurrencyDataModel[]) {
+  alert('IN Currenty set');
+  alert(JSON.stringify(currencies, null, 4));
   const currenciesFormGroups = currencies.map(currency => this.currencyFormBuilder.group(currency));
   const currencyFormArray = this.currencyFormBuilder.array(currenciesFormGroups);
   this.currencyFormGroup.setControl('currenciesOnScreen', currencyFormArray);
@@ -74,8 +81,8 @@ get currenciesOnScreen(): FormArray {
   submit() {
 	  this.showNewRow = false;
 	  this.currencyArrayData = this.prepareForSubmit();
-//    this.currencyService.updateCurrencies(this.currencyArrayData).subscribe(/* error handling */);
-	  let updatedCurrencies = this.currencyService.updateCurrencies(this.currencyArrayData);
+    this.currencyService.updateCurrencies(this.currencyArrayData).subscribe();
+//	  let updatedCurrencies = this.currencyService.updateCurrencies(this.currencyArrayData);
 	  this.ngOnChanges();
 }
 
@@ -83,6 +90,12 @@ get currenciesOnScreen(): FormArray {
 	  const formModel = this.currencyFormGroup.value;
 	  const currenciesOnScreenDeepCopy: CurrencyDataModel[] = formModel.currenciesOnScreen.map(
 		  (currency: CurrencyDataModel) => Object.assign({}, currency));
+    
+    for(let currency of currenciesOnScreenDeepCopy) {
+        alert(this.activatedRoute.snapshot.paramMap.get('userId'));
+        currency.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+      }
+    
 	  const saveCurrencyArrayDataModel : CurrencyArrayDataModel = {
 		  currencies : currenciesOnScreenDeepCopy
 	  }
@@ -103,11 +116,11 @@ next() {
 if(!this.currencyFormGroup.pristine){
   this.submit();
   }
-  this.router.navigate(['/calendars']);
+  this.router.navigate(['/calendars/']);
 }
 
 previousTab() {
-	this.router.navigate(['/countries']);
+	this.router.navigate(['/countries/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
 }
 
 nextTab() {

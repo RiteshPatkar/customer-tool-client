@@ -19,6 +19,8 @@ export class CountryComponent implements OnInit {
 
   countryFormGroup : FormGroup;
   nameChangeLog: string[] = [];
+  selectedCountryCodes : string[] = [];
+  
   isLoading = false;
   showNewRow = false;
   countryCodes : CountryISOCodeArrayDataModel;
@@ -88,8 +90,13 @@ export class CountryComponent implements OnInit {
       		(country: CountryDataModel) => Object.assign({}, country));
       
       for(let country of countriesOnScreenDeepCopy) {
-        alert(this.activatedRoute.snapshot.paramMap.get('userId'));
+        //populate userid for service pojo
         country.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+        
+        //populate countrycode for next
+        if('Y' == country.flag){
+        this.selectedCountryCodes.push(country.countryCode);
+        }
       }
       
 		const saveCountryArrayDataModel : CountryArrayDataModel = {
@@ -112,11 +119,15 @@ export class CountryComponent implements OnInit {
   if(!this.countryFormGroup.pristine){
     this.submit();
     }
-    this.router.navigate(['/currencies']);
+    
+    //create unique set of country codes
+    this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    
+    this.router.navigate(['/currencies/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
   }
    
   nextTab() {
-  	this.router.navigate(['/currencies']);
+  	this.router.navigate(['/currencies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
   }
 
 }

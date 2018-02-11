@@ -11,7 +11,7 @@
 				<tr  *ngFor="let currency of currenciesOnScreen.controls; let i=index" [formGroupName]="i">
 					<td class="form-group"><input class="form-control" formControlName="flag"></td>
 					<td class="form-group"><input type="text" class="form-control" formControlName="currencyCode"></td>
-					<td class="form-group"><input class="form-control" formControlName="currencyDescription"></td>
+					<td class="form-group"><input class="form-control" formControlName="description"></td>
 					<td class="form-group"><input class="form-control" formControlName="numberOfDecimals"></td>
 					<td><button type="button" (click)="delete(i, currency)" class="btn btn-success">Delete</button></td>
 				</tr>
@@ -28,3 +28,6 @@
 		<!--  <button type="reset" (click)="revert()" [disabled]="countryFormGroup.pristine" class="btn btn-danger">Revert</button> -->
 	</div>
 </form>
+
+<p>Form value: {{ currencyFormGroup.value | json }}</p>
+<p>Form status: {{ currencyFormGroup.status | json }}</p>

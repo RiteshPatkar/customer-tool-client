@@ -40,7 +40,6 @@ export class CountryService {
 
   removeCountry(country : CountryDataModel) : Observable<CountryDataModel> {
     let id = country.id;
-    let countryCode = country.countryCode;
     let url = this.countryUrl+'/'+id;
     alert(url);
     return this.http.delete<CountryDataModel>(url, httpOptions)
