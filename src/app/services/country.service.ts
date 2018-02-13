@@ -34,7 +34,13 @@ export class CountryService {
   
   /** Get ISO COuntry Codes **/
   getCountryCodes() : Observable<CountryISOCodeArrayDataModel> {
-    const url = 'http://localhost:8080/isocountry/codes';
+    const url = 'http://localhost:8080/isocountry/';
+    return this.http.get<CountryISOCodeArrayDataModel>(url)
+  }
+  
+  /** Get ISO COuntry Codes for user**/
+  getCountryCodesForUser(userId : number) : Observable<CountryISOCodeArrayDataModel> {
+    const url = 'http://localhost:8080/isocountry/user/'+userId;
     return this.http.get<CountryISOCodeArrayDataModel>(url)
   }
 

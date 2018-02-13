@@ -6,7 +6,9 @@ import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
 import { Location } from '@angular/common';
 import { CurrencyArrayDataModel,  CurrencyDataModel} from '../data/currencytab-data-model';
+import { CountryISOCodeArrayDataModel} from '../data/countrytab-data-model';
 import { CurrencyService } from '../services/currency.service';
+import { CountryService } from '../services/country.service';
 
 @Component({
   selector: 'app-currency',
@@ -21,12 +23,14 @@ currencyFormGroup : FormGroup;
 nameChangeLog: string[] = [];
 isLoading = false;
 showNewRow = false;
+countryCodes : CountryISOCodeArrayDataModel;
 
 constructor(
   private currencyFormBuilder : FormBuilder,
   private router: Router,
   private activatedRoute: ActivatedRoute,
-  private currencyService: CurrencyService) {
+  private currencyService: CurrencyService,
+  private countryService: CountryService) {
   this.createFormGroup();
 }
 
@@ -38,7 +42,25 @@ constructor(
 
 ngOnInit() {
   this.getCurrenciesFromService();
+  alert('getting country codes')
+  this.getCountryCodes();
 }
+
+  getCountryCodes() {
+  alert('populate country codes for currency');
+  const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
+  const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
+  alert(selectCountryCodes);
+    if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
+ 	   alert(JSON.stringify(this.countryCodes, null, 4));
+ 	   alert(selectCountryCodes.split(','));
+ 	   this.countryCodes = new CountryISOCodeArrayDataModel();
+ 	   this.countryCodes.countryCodes = selectCountryCodes.split(',');
+       return;
+    } else {
+    this.countryService.getCountryCodesForUser(userId).subscribe(result => this.countryCodes = result)
+  }
+  }
 
 getCurrenciesFromService() {
   this.isLoading = true;

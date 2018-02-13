@@ -4,12 +4,20 @@
 			<table>
 				<tr>
 					<th class="center-block">Flag</th>
+					<th class="center-block">Country Code</th>
 					<th class="center-block">Currency Code</th>
 					<th class="center-block">Description</th>
 					<th class="center-block">Number Of Decimals</th>
 				</tr>
 				<tr  *ngFor="let currency of currenciesOnScreen.controls; let i=index" [formGroupName]="i">
 					<td class="form-group"><input class="form-control" formControlName="flag"></td>
+					<td class="form-group">
+						<select class="form-control" formControlName="countryCode">
+							<option *ngFor = "let countryCode of countryCodes.countryCodes" [value]= "countryCode">
+								{{countryCode}}
+							</option>
+						</select>
+					</td>
 					<td class="form-group"><input type="text" class="form-control" formControlName="currencyCode"></td>
 					<td class="form-group"><input class="form-control" formControlName="description"></td>
 					<td class="form-group"><input class="form-control" formControlName="numberOfDecimals"></td>
