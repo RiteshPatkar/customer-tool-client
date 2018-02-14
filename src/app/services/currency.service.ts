@@ -30,11 +30,10 @@ export class CurrencyService {
         catchError(this.handleError<CurrencyArrayDataModel>('getCurrencies userId = ${userId}'))
       );
   }
-  
+
 getCurrenciesByCountry(userId : number, countryCodes: String): Observable<CurrencyArrayDataModel> {
-    
+
 //    let inputCountryCodes : '';
-  
 //    for(let countryCode of countryCodes) {
 //      inputCountryCodes + ',' + countryCode;
 //    }
@@ -63,11 +62,11 @@ removeCurrency(currency : CurrencyDataModel) : Observable<CurrencyDataModel> {
       alert(url);
       return this.http.delete<CurrencyDataModel>(url, httpOptions)
         .pipe(
-        tap(_ => this.log(`delete country = ${currency}`)),
-        catchError(this.handleError<CurrencyDataModel>('delete country = ${country}'))
+        tap(_ => this.log(`delete currency = ${currency}`)),
+        catchError(this.handleError<CurrencyDataModel>('delete currency = ${currency}'))
       )
 }
-  
+
     private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       alert('IN error');
@@ -78,7 +77,7 @@ removeCurrency(currency : CurrencyDataModel) : Observable<CurrencyDataModel> {
       return of(result as T);
     };
   }
-  
+
     private log(message: string) {
       this.messageService.add('CurrencyService: ' + message);
   }

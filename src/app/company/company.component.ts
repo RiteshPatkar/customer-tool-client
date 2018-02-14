@@ -1,12 +1,15 @@
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { CompanyArrayDataModel,  CompanyDataModel} from '../data/companytab-data-model';
-import { COMPANIES } from '../mock-data/mock-companies';
-import { CompanyService } from '../services/company.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
-import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+
+import { CompanyArrayDataModel,  CompanyDataModel} from '../data/companytab-data-model';
+import { CountryISOCodeArrayDataModel} from '../data/countrytab-data-model';
+import { CompanyService } from '../services/company.service';
+import { CountryService } from '../services/country.service';
 
 @Component({
   selector: 'app-company',
@@ -19,15 +22,16 @@ export class CompanyComponent implements OnInit {
 
   companyFormGroup : FormGroup;
   nameChangeLog: string[] = [];
- // companyDataFromService : Observable<CompanyArrayDataModel>;
-  companyDataFromService : CompanyArrayDataModel;
   isLoading = false;
   showNewRow = false;
+  countryCodes : CountryISOCodeArrayDataModel;
 
   constructor(
     private companyFormBuilder : FormBuilder,
-	private router: Router,
-    private companyService: CompanyService) {
+	  private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private companyService: CompanyService,
+    private countryService: CountryService) {
     this.createFormGroup();
   }
 
@@ -39,13 +43,36 @@ export class CompanyComponent implements OnInit {
 
   ngOnInit() {
     this.getCompaniesFromService();
-  this.setCompanies(this.companyDataFromService.companies);
-  }
+    this.getCountryCodes();
+    }
+
+    getCountryCodes() {
+    const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
+    const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
+    alert(selectCountryCodes);
+      if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
+       alert(JSON.stringify(this.countryCodes, null, 4));
+       alert(selectCountryCodes.split(','));
+       this.countryCodes = new CountryISOCodeArrayDataModel();
+       this.countryCodes.countryCodes = selectCountryCodes.split(',');
+         return;
+      } else {
+      this.countryService.getCountryCodesForUser(userId).subscribe(result => this.countryCodes = result)
+    }
+    }
 
   getCompaniesFromService() {
   this.isLoading = true;
-  this.companyDataFromService = this.companyService.getCompanies();
-    //  .finally(() => this.isLoading = false);
+  const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
+  const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
+  alert(selectCountryCodes)
+
+  if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
+    this.companyService.getCompaniesByCountry(userId, selectCountryCodes).subscribe(companyArrayData => this.setCompanies(companyArrayData.companies))
+    return;
+    }
+    this.companyService.getCompanies(userId).subscribe(companyArrayData => this.setCompanies(companyArrayData.companies));
+	  //	.finally(() => this.isLoading = false);
   }
 
    ngOnChanges() {
@@ -72,8 +99,7 @@ export class CompanyComponent implements OnInit {
     submit() {
       this.showNewRow = false;
       this.companyArrayData = this.prepareForSubmit();
-//    this.companyService.updateCompanies(this.companyArrayData).subscribe(/* error handling */);
-        let updatedCompanies = this.companyService.updateCompanies(this.companyArrayData);
+      this.companyService.updateCompanies(this.companyArrayData).subscribe();
     this.ngOnChanges();
   }
 
@@ -81,6 +107,12 @@ export class CompanyComponent implements OnInit {
       const formModel = this.companyFormGroup.value;
     const companiesOnScreenDeepCopy: CompanyDataModel[] = formModel.companiesOnScreen.map(
           (company: CompanyDataModel) => Object.assign({}, company));
+
+          for(let company of companiesOnScreenDeepCopy) {
+              alert(this.activatedRoute.snapshot.paramMap.get('userId'));
+              company.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+            }
+
     const saveCompanyArrayDataModel : CompanyArrayDataModel = {
       companies : companiesOnScreenDeepCopy
     }
@@ -101,14 +133,14 @@ export class CompanyComponent implements OnInit {
   if(!this.companyFormGroup.pristine){
     this.submit();
     }
-    this.router.navigate(['/banks']);
+    this.router.navigate(['/banks/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
   }
 
   previousTab() {
-  	this.router.navigate(['/calendars']);
+  	this.router.navigate(['/calendars/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
   }
 
   nextTab() {
-    this.router.navigate(['/banks']);
+    this.router.navigate(['/banks/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
   }
 }

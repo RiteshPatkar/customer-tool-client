@@ -3,6 +3,9 @@ export class CompanyArrayDataModel {
 }
 
 export class CompanyDataModel {
+
+  id = 0;
+  userId = '';
   action = '';
   rejectCode = 0;
   companyCode = '';
@@ -52,4 +55,8 @@ export class CompanyDataModel {
   lei = '';
   accountingCalendar = '';
   distinguishedName = '';
+}
+
+export class CountryISOCodeArrayDataModel {
+  countryCodes: any[];
 }

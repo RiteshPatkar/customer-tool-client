@@ -14,11 +14,16 @@ const routes: Routes = [
   	{ path: 'countries/:userId', component: CountryComponent },
   	{ path: 'currencies/:userId/:selectedCountryCodes', component: CurrencyComponent },
   	{ path: 'currencies/:userId', component: CurrencyComponent },
-  	{ path: 'calendars', component: CalendarComponent },
-   	{ path: 'companies', component: CompanyComponent },
-  	{ path: 'banks', component: BankComponent },
-    { path: 'bankbranches', component: BankBranchComponent },
-    { path: 'accounts', component: AccountComponent },
+		{ path: 'calendars/:userId/:selectedCountryCodes', component: CalendarComponent },
+		{ path: 'calendars/:userId', component: CalendarComponent },
+		{ path: 'companies/:userId/:selectedCountryCodes', component: CompanyComponent },
+		{ path: 'companies/:userId', component: CompanyComponent },
+		{ path: 'banks/:userId/:selectedCountryCodes', component: BankComponent },
+		{ path: 'banks/:userId', component: BankComponent },
+		{ path: 'bankbranches/:userId/:selectedCountryCodes', component: BankBranchComponent },
+		{ path: 'bankbranches/:userId', component: BankBranchComponent },
+		{ path: 'accounts/:userId/:selectedCountryCodes', component: AccountComponent },
+		{ path: 'accounts/:userId', component: AccountComponent }
 ];
 
 @NgModule({
