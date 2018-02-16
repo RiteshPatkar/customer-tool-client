@@ -13,3 +13,7 @@ export class DateAndFlagDataModel {
   flag='';
   date='';
 }
+
+export class CountryISOCodeArrayDataModel {
+  countryCodes: any[];
+}

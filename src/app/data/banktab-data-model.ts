@@ -9,3 +9,7 @@ export class BankDataModel {
   dealIntermediary = 0;
   dealCounterPart = 0;
 }
+
+export class CountryISOCodeArrayDataModel {
+  countryCodes: any[];
+}

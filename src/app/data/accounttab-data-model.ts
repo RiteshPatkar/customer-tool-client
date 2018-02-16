@@ -90,3 +90,7 @@ freeAmount3 = '';
 accountAvailableForPayments = '';
 accountNature = '';
 }
+
+export class CountryISOCodeArrayDataModel {
+  countryCodes: any[];
+}

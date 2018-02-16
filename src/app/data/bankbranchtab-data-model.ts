@@ -41,3 +41,7 @@ userZone5 = '';
 memo = '';
 
 }
+
+export class CountryISOCodeArrayDataModel {
+  countryCodes: any[];
+}

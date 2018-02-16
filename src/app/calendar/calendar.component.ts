@@ -1,14 +1,14 @@
 import {FormArray, FormGroup, FormBuilder, Validators} from '@angular/forms'
 import {Component, OnInit, Input, OnChanges} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/finally';
+import {IndexKind} from "typescript";
 import {Location} from '@angular/common';
 import {CalendarArrayDataModel, CalendarDataModel, DateAndFlagDataModel} from '../data/calendartab-data-model';
 import {CALENDARS} from '../mock-data/mock-calendars';
 import {CalendarService} from '../services/calendar.service';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/finally';
-import {IndexKind} from "typescript";
-import { Router } from '@angular/router';
+import { CountryService } from '../services/country.service';
 
 @Component({
   selector: 'app-calendar',
@@ -19,21 +19,18 @@ export class CalendarComponent implements OnInit {
 
   @Input() calendarArrayData: CalendarArrayDataModel;
   calendarFormGroup: FormGroup;
-  // calendarDataFromService : Observable<CalendarArrayDataModel>;
-  @Input() calendarData: CalendarDataModel;
   dateAndFlagFormGroup: FormGroup
-
-  calendarDataFromService: CalendarArrayDataModel;
-
   nameChangeLog: string[] = [];
   isLoading = false;
   showNewRow = false;
+  countryCodes : CountryISOCodeArrayDataModel;
 
   constructor(
     private calendarFormBuilder: FormBuilder,
 	private router: Router,
-    private calendarService: CalendarService) {
-    alert("constructor");
+	private activatedRoute: ActivatedRoute,
+    	private calendarService: CalendarService),
+        private countryService: CountryService) {
     this.createFormGroup();
 //    this.createChildFormGroup();
   }
@@ -45,6 +42,12 @@ export class CalendarComponent implements OnInit {
       calendarsOnScreen: this.calendarFormBuilder.array([])
 //          calendarsOnScreen : this.calendarFormBuilder.array([this.init1()])
     });
+  }
+
+    ngOnInit() {
+    this.getCalendarsFromService();
+      this.getCountryCodes();
+//    this.setCalendars(this.calendarDataFromService.calendars);
   }
 
     createChildFormGroup() {
@@ -70,23 +73,37 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-
-
-  ngOnInit() {
-    alert("ngOnInit");
-    this.getCalendarsFromService();
-    this.setCalendars(this.calendarDataFromService.calendars);
+ getCountryCodes() {
+  alert('populate country codes for currency');
+  const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
+  const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
+  alert(selectCountryCodes);
+    if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
+ 	   alert(JSON.stringify(this.countryCodes, null, 4));
+ 	   alert(selectCountryCodes.split(','));
+ 	   this.countryCodes = new CountryISOCodeArrayDataModel();
+ 	   this.countryCodes.countryCodes = selectCountryCodes.split(',');
+       return;
+    } else {
+    this.countryService.getCountryCodesForUser(userId).subscribe(result => this.countryCodes = result)
   }
+  }
+
 
   getCalendarsFromService() {
     alert("getCalendarsFromService");
     this.isLoading = true;
-    this.calendarDataFromService = this.calendarService.getCalendarsByCountry([]);
-    //	.finally(() => this.isLoading = false);
+  const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
+  alert(selectCountryCodes)
+  if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
+    this.calendarService.getCalendarsByCountry(userId, selectCountryCodes).subscribe(calendarArrayData => this.setCalendars(calendarArrayData.calendars))
+    return;
+    }
+    this.calendarService.getCalendars(userId).subscribe(calendarArrayData => this.setCalendars(calendarArrayData.calendars));
+   //	.finally(() => this.isLoading = false);
   }
 
   ngOnChanges() {
-    alert("ngOnChanges");
     this.calendarFormGroup.reset({
     });
     this.setCalendars(this.calendarArrayData.calendars);
@@ -94,7 +111,6 @@ export class CalendarComponent implements OnInit {
 
 
   get calendarsOnScreen(): FormArray {
-    alert('calendarsOnScreen');
     return this.calendarFormGroup.get('calendarsOnScreen') as FormArray
   }
 
@@ -105,7 +121,8 @@ export class CalendarComponent implements OnInit {
 
 
   setCalendars(calendars: CalendarDataModel[]) {
-    alert('setCalendars');
+  alert('IN Calendar set');
+  alert(JSON.stringify(calendars, null, 4));
     const calendarsFormGroups = calendars.map(calendar => this.buildEachCalendarForm(calendar));
     const calendarFormArray = this.calendarFormBuilder.array(calendarsFormGroups);
     this.calendarFormGroup.setControl('calendarsOnScreen', calendarFormArray);
@@ -135,8 +152,8 @@ export class CalendarComponent implements OnInit {
     alert('submit');
     this.showNewRow = false;
     this.calendarArrayData = this.prepareForSubmit();
-    //    this.calendarService.updateCalendars(this.calendarArrayData).subscribe(/* error handling */);
-    let updatedCalendars = this.calendarService.updateCalendars(this.calendarArrayData);
+    this.calendarService.updateCalendars(this.calendarArrayData).subscribe();
+    //let updatedCalendars = this.calendarService.updateCalendars(this.calendarArrayData);
     this.ngOnChanges();
   }
 
@@ -145,6 +162,10 @@ export class CalendarComponent implements OnInit {
     const formModel = this.calendarFormGroup.value;
     const calendarsOnScreenDeepCopy: CalendarDataModel[] = formModel.calendarsOnScreen.map(
       (calendar: CalendarDataModel) => Object.assign({}, calendar));
+    for(let calendar of calendarsOnScreenDeepCopy) {
+        alert(this.activatedRoute.snapshot.paramMap.get('userId'));
+        calendar.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+      }
     const saveCalendarArrayDataModel: CalendarArrayDataModel = {
       calendars: calendarsOnScreenDeepCopy
     }
@@ -167,14 +188,14 @@ export class CalendarComponent implements OnInit {
   if(!this.calendarFormGroup.pristine){
     this.submit();
     }
-    this.router.navigate(['/companies']);
+    this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
   }
 
   previousTab() {
-  	this.router.navigate(['/currencies']);
+  	this.router.navigate(['/currencies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
   }
 
   nextTab() {
-    this.router.navigate(['/companies']);
+    this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
   }
 }

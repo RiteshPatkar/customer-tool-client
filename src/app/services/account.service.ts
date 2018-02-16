@@ -1,27 +1,85 @@
 import { Injectable } from '@angular/core';
-//import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { AccountArrayDataModel,  AccountDataModel} from '../data/accounttab-data-model';
-import { ACCOUNTS } from '../mock-data/mock-accounts';
+//import { CURRENCIES } from '../mock-data/mock-accounts';
+import { MessageService } from './message.service';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin' : '*' })
+};
 
 @Injectable()
 export class AccountService {
 
- constructor() { }
+ private url = 'http://localhost:8080/account'; //URL to API
 
-  getAccounts(): AccountArrayDataModel {
-//     return of(ACCOUNTS);
-  return ACCOUNTS;
+  constructor(private http: HttpClient, private messageService: MessageService) { }
+
+/** GET Accounts Based on userId **/
+  getAccounts(userId : number): Observable<AccountArrayDataModel> {
+    const url = this.url + '/'+userId;
+    alert('in get 1st')
+    alert(url)
+    return this.http.get<AccountArrayDataModel>(url)
+      .pipe(
+        tap(_ => this.log(`fetched accounts for userId = ${userId}`)),
+        catchError(this.handleError<AccountArrayDataModel>('getAccounts userId = ${userId}'))
+      );
   }
 
-  updateAccounts(accounts : AccountArrayDataModel) : AccountArrayDataModel {
-    //logic to update data
-    return accounts;
+getAccountsByCountry(userId : number, countryCodes: String): Observable<AccountArrayDataModel> {
+
+//    let inputCountryCodes : '';
+//    for(let countryCode of countryCodes) {
+//      inputCountryCodes + ',' + countryCode;
+//    }
+    const url = this.url + '/'+userId + '/' + countryCodes;
+    alert('in get ' + url)
+    return this.http.get<AccountArrayDataModel>(url)
+      .pipe(
+        tap(_ => this.log(`fetched accounts for userId = ${userId}`)),
+        catchError(this.handleError<AccountArrayDataModel>('getAccounts userId = ${userId}'))
+      );
   }
 
-  removeAccount(account : AccountDataModel) : void {
+updateAccounts(accounts : AccountArrayDataModel) : Observable<AccountArrayDataModel> {
+    const url = this.url + '/';
+    alert(JSON.stringify(accounts, null, 4));
+        return this.http.post<AccountArrayDataModel>(url, accounts, httpOptions)
+      .pipe(
+        tap(_ => this.log(`save ad update accounts`)),
+        catchError(this.handleError<AccountArrayDataModel>('failure during update countries'))
+      );
+}
+
+removeAccount(account : AccountDataModel) : Observable<AccountDataModel> {
+      let id = account.id;
+      let url = this.url+'/'+id;
+      alert(url);
+      return this.http.delete<AccountDataModel>(url, httpOptions)
+        .pipe(
+        tap(_ => this.log(`delete account = ${account}`)),
+        catchError(this.handleError<AccountDataModel>('delete account = ${account}'))
+      )
+}
+
+    private handleError<T> (operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      alert('IN error');
+      alert(JSON.stringify(error, null, 4));
+      console.error(error); // log to console instead
+      this.log(`${operation} failed: ${error.message}`);
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+    private log(message: string) {
+      this.messageService.add('AccountService: ' + message);
   }
 
 }
