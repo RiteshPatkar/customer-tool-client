@@ -42,7 +42,6 @@ constructor(
 
 ngOnInit() {
   this.getCurrenciesFromService();
-  alert('getting country codes')
   this.getCountryCodes();
 }
 
@@ -112,12 +111,12 @@ get currenciesOnScreen(): FormArray {
 	  const formModel = this.currencyFormGroup.value;
 	  const currenciesOnScreenDeepCopy: CurrencyDataModel[] = formModel.currenciesOnScreen.map(
 		  (currency: CurrencyDataModel) => Object.assign({}, currency));
-    
+
     for(let currency of currenciesOnScreenDeepCopy) {
         alert(this.activatedRoute.snapshot.paramMap.get('userId'));
         currency.userId = this.activatedRoute.snapshot.paramMap.get('userId')
       }
-    
+
 	  const saveCurrencyArrayDataModel : CurrencyArrayDataModel = {
 		  currencies : currenciesOnScreenDeepCopy
 	  }

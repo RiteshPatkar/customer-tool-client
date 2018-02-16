@@ -18,8 +18,8 @@ export class CompanyDataModel {
   otherId = '';
   nonResident = 0;
   issuerOfInterchange = 0;
-  currency = '';
-  glCurrecy = '';
+  currencyCode = '';
+  glCurrencyCode = '';
   glCurrencyRate = '';
   addressLine1 = '';
   addressLine2 = '';
@@ -27,11 +27,11 @@ export class CompanyDataModel {
   zip = '';
   state = '';
   country = '';
-  homepage = '';
+  homePage = '';
   contactName = '';
   contactDepartment = '';
   contactPhoneNumber = '';
-  contactFax = '';
+  contactFaxNumber = '';
   contactEmail = '';
   intermediary = 0;
   counterParty = 0;

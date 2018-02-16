@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { CompanyArrayDataModel,  CurrencyDataModel} from '../data/companytab-data-model';
+import { CompanyArrayDataModel,  CompanyDataModel} from '../data/companytab-data-model';
 // import { COMPANIES } from '../mock-data/mock-companies';
 import { MessageService } from './message.service';
 
