@@ -21,6 +21,7 @@ export class BankComponent implements OnInit {
 
 bankFormGroup : FormGroup;
 nameChangeLog: string[] = [];
+selectedCountryCodes : string[] = [];
 isLoading = false;
 showNewRow = false;
 countryCodes : CountryISOCodeArrayDataModel;
@@ -114,7 +115,10 @@ get banksOnScreen(): FormArray {
 
     for(let bank of banksOnScreenDeepCopy) {
         alert(this.activatedRoute.snapshot.paramMap.get('userId'));
-        bank.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+        bank.userId = this.activatedRoute.snapshot.paramMap.get('userId');
+                                    
+             //populate countrycode for next
+       		 this.selectedCountryCodes.push(bank.countryCode);
       }
 
 	  const saveBankArrayDataModel : BankArrayDataModel = {
@@ -137,14 +141,24 @@ next() {
 if(!this.bankFormGroup.pristine){
   this.submit();
   }
-  this.router.navigate(['/bankbranches/']);
+  
+          //create unique set of country codes
+    this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    this.router.navigate(['/bankbranches/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
 }
 
 previousTab() {
-	this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+
+   if(this.selectedCountryCodes.length === 0) {
+  	this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+  	} else {
+  	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    
+    this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+  	}
 }
 
 nextTab() {
-  this.router.navigate(['/bankbranches']);
+this.router.navigate(['/bankbranches/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
 }
 }

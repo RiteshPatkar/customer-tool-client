@@ -24,6 +24,7 @@ nameChangeLog: string[] = [];
 isLoading = false;
 showNewRow = false;
 countryCodes : CountryISOCodeArrayDataModel;
+   selectedCountryCodes : string[] = [];
 
 constructor(
   private accountFormBuilder : FormBuilder,
@@ -114,7 +115,9 @@ get accountsOnScreen(): FormArray {
 
     for(let account of accountsOnScreenDeepCopy) {
         alert(this.activatedRoute.snapshot.paramMap.get('userId'));
-        account.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+        account.userId = this.activatedRoute.snapshot.paramMap.get('userId');
+                     //populate countrycode for next
+       		 this.selectedCountryCodes.push(account.countryCode);
       }
 
 	  const saveAccountArrayDataModel : AccountArrayDataModel = {
@@ -133,7 +136,21 @@ delete(i : number, account : AccountDataModel) {
   this.accountsOnScreen.removeAt(i);
 }
 
+ next() {
+  if(!this.accountFormGroup.pristine){
+    this.submit();
+    }
+  }
+
 previousTab() {
-	this.router.navigate(['/bankBranches/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+
+   if(this.selectedCountryCodes.length === 0) {
+  	this.router.navigate(['/bankBranches/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+  	} 
+  	else {
+  	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    
+    this.router.navigate(['/bankBranches/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+  	}
 }
 }

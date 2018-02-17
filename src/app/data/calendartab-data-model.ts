@@ -3,6 +3,11 @@ export class CalendarArrayDataModel {
 }
 
 export class CalendarDataModel {
+
+  id = 0;
+  userId = '';
+  countryCode = '';
+  
   calendarCode='';
   calendarDescription='';
   closedDays='';

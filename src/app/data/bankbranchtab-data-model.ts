@@ -3,6 +3,10 @@ export class BankBranchArrayDataModel {
 }
 
 export class BankBranchDataModel {
+
+  id = 0;
+  userId = '';
+
 action = '';
 rejectionCode = 0;
 code = '';

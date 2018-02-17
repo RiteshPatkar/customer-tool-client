@@ -25,6 +25,7 @@ export class CompanyComponent implements OnInit {
   isLoading = false;
   showNewRow = false;
   countryCodes : CountryISOCodeArrayDataModel;
+   selectedCountryCodes : string[] = [];
 
   constructor(
     private companyFormBuilder : FormBuilder,
@@ -111,6 +112,10 @@ export class CompanyComponent implements OnInit {
           for(let company of companiesOnScreenDeepCopy) {
               alert(this.activatedRoute.snapshot.paramMap.get('userId'));
               company.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+              
+                            
+             //populate countrycode for next
+       		 this.selectedCountryCodes.push(company.country);
             }
 
     const saveCompanyArrayDataModel : CompanyArrayDataModel = {
@@ -133,11 +138,21 @@ export class CompanyComponent implements OnInit {
   if(!this.companyFormGroup.pristine){
     this.submit();
     }
-    this.router.navigate(['/banks/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+    
+        //create unique set of country codes
+    this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    this.router.navigate(['/banks/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
   }
 
   previousTab() {
+  
+   if(this.selectedCountryCodes.length === 0) {
   	this.router.navigate(['/calendars/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+  	} else {
+  	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    
+    this.router.navigate(['/calendars/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+  	}
   }
 
   nextTab() {

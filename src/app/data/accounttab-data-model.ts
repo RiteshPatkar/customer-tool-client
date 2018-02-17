@@ -3,6 +3,9 @@ export class AccountArrayDataModel {
 }
 
 export class AccountDataModel {
+
+  id = 0;
+
 action = '';
 accountCode = '';
 currencyCode = '';

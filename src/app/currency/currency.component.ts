@@ -24,6 +24,7 @@ nameChangeLog: string[] = [];
 isLoading = false;
 showNewRow = false;
 countryCodes : CountryISOCodeArrayDataModel;
+  selectedCountryCodes : string[] = [];
 
 constructor(
   private currencyFormBuilder : FormBuilder,
@@ -114,7 +115,8 @@ get currenciesOnScreen(): FormArray {
 
     for(let currency of currenciesOnScreenDeepCopy) {
         alert(this.activatedRoute.snapshot.paramMap.get('userId'));
-        currency.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+        currency.userId = this.activatedRoute.snapshot.paramMap.get('userId');
+        this.selectedCountryCodes.push(currency.countryCode);
       }
 
 	  const saveCurrencyArrayDataModel : CurrencyArrayDataModel = {
@@ -137,7 +139,11 @@ next() {
 if(!this.currencyFormGroup.pristine){
   this.submit();
   }
-  this.router.navigate(['/calendars/']);
+  
+  //create unique set of country codes
+    this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    
+  this.router.navigate(['/calendars/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
 }
 
 previousTab() {
@@ -145,6 +151,6 @@ previousTab() {
 }
 
 nextTab() {
-  this.router.navigate(['/calendars']);
+  this.router.navigate(['/calendars'+this.activatedRoute.snapshot.paramMap.get('userId')]);
 }
 }

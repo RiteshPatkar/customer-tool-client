@@ -5,9 +5,9 @@ import { Observable }        from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import { IndexKind } from "typescript";
 import { Location } from '@angular/common';
-import { BankArrayDataModel,  BankDataModel} from '../data/bankbranchtab-data-model';
+import { BankBranchArrayDataModel,  BankBranchDataModel} from '../data/bankbranchtab-data-model';
 import { CountryISOCodeArrayDataModel} from '../data/countrytab-data-model';
-import { BankService } from '../services/bankbranch.service';
+import { BankBranchService } from '../services/bankbranch.service';
 import { CountryService } from '../services/country.service';
 
 @Component({
@@ -15,28 +15,29 @@ import { CountryService } from '../services/country.service';
   templateUrl: './bankbranch.component.html',
   styleUrls: ['./bankbranch.component.css']
 })
-export class BankComponent implements OnInit {
+export class BankBranchComponent implements OnInit {
 
-@Input() bankbranchArrayData: BankArrayDataModel;
+@Input() bankBranchArrayData: BankBranchArrayDataModel;
 
-bankbranchFormGroup : FormGroup;
+bankBranchFormGroup : FormGroup;
 nameChangeLog: string[] = [];
 isLoading = false;
 showNewRow = false;
 countryCodes : CountryISOCodeArrayDataModel;
+   selectedCountryCodes : string[] = [];
 
 constructor(
-  private bankbranchFormBuilder : FormBuilder,
+  private bankBranchFormBuilder : FormBuilder,
   private router: Router,
   private activatedRoute: ActivatedRoute,
-  private bankbranchService: BankService,
+  private bankBranchService: BankBranchService,
   private countryService: CountryService) {
   this.createFormGroup();
 }
 
  createFormGroup() {
-  this.bankbranchFormGroup = this.bankbranchFormBuilder.group({
-	bankbranchsOnScreen : this.bankbranchFormBuilder.array([])
+  this.bankBranchFormGroup = this.bankBranchFormBuilder.group({
+	bankBranchesOnScreen : this.bankBranchFormBuilder.array([])
   });
 }
 
@@ -46,7 +47,7 @@ ngOnInit() {
 }
 
   getCountryCodes() {
-  alert('populate country codes for bankbranch');
+  alert('populate country codes for bankBranch');
   const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
   const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
   alert(selectCountryCodes);
@@ -69,56 +70,58 @@ getBankBranchesFromService() {
   if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
 //    var countryCodeArray = selectCountryCodes.split(',');
 //    if(countryCodeArray.length > 0) {
-    this.bankbranchService.getBankBranchesByCountry(userId, selectCountryCodes).subscribe(bankbranchArrayData => this.setBankBranches(bankbranchArrayData.bankbranchs))
+    this.bankBranchService.getBankBranchesByCountry(userId, selectCountryCodes).subscribe(bankBranchArrayData => this.setBankBranches(bankBranchArrayData.bankBranches))
     return;
     }
-    this.bankbranchService.getBankBranches(userId).subscribe(bankbranchArrayData => this.setBankBranches(bankbranchArrayData.bankbranchs));
+    this.bankBranchService.getBankBranches(userId).subscribe(bankBranchArrayData => this.setBankBranches(bankBranchArrayData.bankBranches));
 	  //	.finally(() => this.isLoading = false);
 }
 
  ngOnChanges() {
-  this.bankbranchFormGroup.reset({
+  this.bankBranchFormGroup.reset({
   });
-	this.setBankBranches(this.bankbranchArrayData.bankbranchs);
+	this.setBankBranches(this.bankBranchArrayData.bankBranches);
 }
 
-get bankbranchsOnScreen(): FormArray {
-  return this.bankbranchFormGroup.get('bankbranchsOnScreen') as FormArray
+get bankBranchesOnScreen(): FormArray {
+  return this.bankBranchFormGroup.get('bankBranchesOnScreen') as FormArray
 }
 
- setBankBranches(bankbranchs : BankDataModel[]) {
+ setBankBranches(bankBranches : BankBranchDataModel[]) {
   alert('IN Currenty set');
-  alert(JSON.stringify(bankbranchs, null, 4));
-  const bankbranchsFormGroups = bankbranchs.map(bankbranch => this.bankbranchFormBuilder.group(bankbranch));
-  const bankbranchFormArray = this.bankbranchFormBuilder.array(bankbranchsFormGroups);
-  this.bankbranchFormGroup.setControl('bankbranchsOnScreen', bankbranchFormArray);
+  alert(JSON.stringify(bankBranches, null, 4));
+  const bankBranchesFormGroups = bankBranches.map(bankBranch => this.bankBranchFormBuilder.group(bankBranch));
+  const bankBranchFormArray = this.bankBranchFormBuilder.array(bankBranchesFormGroups);
+  this.bankBranchFormGroup.setControl('bankBranchesOnScreen', bankBranchFormArray);
 }
 
   add() {
   this.showNewRow = true;
-  this.bankbranchsOnScreen.push(this.bankbranchFormBuilder.group(new BankDataModel()));
+  this.bankBranchesOnScreen.push(this.bankBranchFormBuilder.group(new BankBranchDataModel()));
 }
 
   submit() {
 	  this.showNewRow = false;
-	  this.bankbranchArrayData = this.prepareForSubmit();
-    this.bankbranchService.updateBankBranches(this.bankbranchArrayData).subscribe();
-//	  let updatedBankBranches = this.bankbranchService.updateBankBranches(this.bankbranchArrayData);
+	  this.bankBranchArrayData = this.prepareForSubmit();
+    this.bankBranchService.updateBankBranches(this.bankBranchArrayData).subscribe();
+//	  let updatedBankBranches = this.bankBranchService.updateBankBranches(this.bankBranchArrayData);
 	  this.ngOnChanges();
 }
 
-  prepareForSubmit(): BankArrayDataModel {
-	  const formModel = this.bankbranchFormGroup.value;
-	  const bankbranchsOnScreenDeepCopy: BankDataModel[] = formModel.bankbranchsOnScreen.map(
-		  (bankbranch: BankDataModel) => Object.assign({}, bankbranch));
+  prepareForSubmit(): BankBranchArrayDataModel {
+	  const formModel = this.bankBranchFormGroup.value;
+	  const bankBranchesOnScreenDeepCopy: BankBranchDataModel[] = formModel.bankBranchesOnScreen.map(
+		  (bankBranch: BankBranchDataModel) => Object.assign({}, bankBranch));
 
-    for(let bankbranch of bankbranchsOnScreenDeepCopy) {
+    for(let bankBranch of bankBranchesOnScreenDeepCopy) {
         alert(this.activatedRoute.snapshot.paramMap.get('userId'));
-        bankbranch.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+        bankBranch.userId = this.activatedRoute.snapshot.paramMap.get('userId');
+                     //populate countrycode for next
+       		 this.selectedCountryCodes.push(bankBranch.country);
       }
 
-	  const saveBankArrayDataModel : BankArrayDataModel = {
-		  bankbranchs : bankbranchsOnScreenDeepCopy
+	  const saveBankArrayDataModel : BankBranchArrayDataModel = {
+		  bankBranches : bankBranchesOnScreenDeepCopy
 	  }
 
   return saveBankArrayDataModel;
@@ -128,23 +131,32 @@ revert() {
   this.ngOnChanges();
   }
 
-delete(i : number, bankbranch : BankDataModel) {
-  this.bankbranchService.removeBank(bankbranch);
-  this.bankbranchsOnScreen.removeAt(i);
+delete(i : number, bankBranch : BankBranchDataModel) {
+  this.bankBranchService.removeBankBranch(bankBranch);
+  this.bankBranchesOnScreen.removeAt(i);
 }
 
 next() {
-if(!this.bankbranchFormGroup.pristine){
+if(!this.bankBranchFormGroup.pristine){
   this.submit();
   }
-  this.router.navigate(['/calendars/']);
+         //create unique set of country codes
+    this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    this.router.navigate(['/accounts/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
 }
 
 previousTab() {
-	this.router.navigate(['/countries/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+
+   if(this.selectedCountryCodes.length === 0) {
+  	this.router.navigate(['/banks/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+  	} else {
+  	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    
+    this.router.navigate(['/banks/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+  	}
 }
 
 nextTab() {
-  this.router.navigate(['/calendars']);
+  this.router.navigate(['/accounts/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
 }
 }

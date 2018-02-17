@@ -6,6 +6,7 @@ import 'rxjs/add/operator/finally';
 import {IndexKind} from "typescript";
 import {Location} from '@angular/common';
 import {CalendarArrayDataModel, CalendarDataModel, DateAndFlagDataModel} from '../data/calendartab-data-model';
+import { CountryISOCodeArrayDataModel} from '../data/countrytab-data-model';
 import {CALENDARS} from '../mock-data/mock-calendars';
 import {CalendarService} from '../services/calendar.service';
 import { CountryService } from '../services/country.service';
@@ -24,12 +25,13 @@ export class CalendarComponent implements OnInit {
   isLoading = false;
   showNewRow = false;
   countryCodes : CountryISOCodeArrayDataModel;
+  selectedCountryCodes : string[] = [];
 
   constructor(
     private calendarFormBuilder: FormBuilder,
 	private router: Router,
 	private activatedRoute: ActivatedRoute,
-    	private calendarService: CalendarService),
+    	private calendarService: CalendarService,
         private countryService: CountryService) {
     this.createFormGroup();
 //    this.createChildFormGroup();
@@ -93,6 +95,7 @@ export class CalendarComponent implements OnInit {
   getCalendarsFromService() {
     alert("getCalendarsFromService");
     this.isLoading = true;
+      const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
   const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
   alert(selectCountryCodes)
   if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
@@ -164,7 +167,8 @@ export class CalendarComponent implements OnInit {
       (calendar: CalendarDataModel) => Object.assign({}, calendar));
     for(let calendar of calendarsOnScreenDeepCopy) {
         alert(this.activatedRoute.snapshot.paramMap.get('userId'));
-        calendar.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+        calendar.userId = this.activatedRoute.snapshot.paramMap.get('userId');
+        this.selectedCountryCodes.push(calendar.countryCode);
       }
     const saveCalendarArrayDataModel: CalendarArrayDataModel = {
       calendars: calendarsOnScreenDeepCopy
@@ -180,6 +184,7 @@ export class CalendarComponent implements OnInit {
 
   delete(i: number, calendar: CalendarDataModel) {
     alert('delete');
+    
     this.calendarService.removeCalendar(calendar);
     this.calendarsOnScreen.removeAt(i);
   }
@@ -188,11 +193,21 @@ export class CalendarComponent implements OnInit {
   if(!this.calendarFormGroup.pristine){
     this.submit();
     }
-    this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+    
+    //create unique set of country codes
+    this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    
+    this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
   }
 
   previousTab() {
+  if(this.selectedCountryCodes.length === 0) {
   	this.router.navigate(['/currencies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+  	} else {
+  	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+    
+    this.router.navigate(['/currencies/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+  	}
   }
 
   nextTab() {

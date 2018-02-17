@@ -20,7 +20,7 @@ export class BankBranchService {
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
 /** GET BankBranchs Based on userId **/
-  getBankBranchs(userId : number): Observable<BankBranchArrayDataModel> {
+  getBankBranches(userId : number): Observable<BankBranchArrayDataModel> {
     const url = this.url + '/'+userId;
     alert('in get 1st')
     alert(url)
@@ -31,7 +31,7 @@ export class BankBranchService {
       );
   }
 
-getBankBranchsByCountry(userId : number, countryCodes: String): Observable<BankBranchArrayDataModel> {
+getBankBranchesByCountry(userId : number, countryCodes: String): Observable<BankBranchArrayDataModel> {
 
 //    let inputCountryCodes : '';
 //    for(let countryCode of countryCodes) {
@@ -46,7 +46,7 @@ getBankBranchsByCountry(userId : number, countryCodes: String): Observable<BankB
       );
   }
 
-updateBankBranchs(bankBranchBranches : BankBranchArrayDataModel) : Observable<BankBranchArrayDataModel> {
+updateBankBranches(bankBranchBranches : BankBranchArrayDataModel) : Observable<BankBranchArrayDataModel> {
     const url = this.url + '/';
     alert(JSON.stringify(bankBranchBranches, null, 4));
         return this.http.post<BankBranchArrayDataModel>(url, bankBranchBranches, httpOptions)
