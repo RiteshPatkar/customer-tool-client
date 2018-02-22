@@ -8,9 +8,18 @@ import { CountryComponent } from './country/country.component';
 import { CurrencyComponent } from './currency/currency.component';
 import { CompanyComponent } from './company/company.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { HomeComponent } from './home/index';
+import { LoginComponent } from './login/index';
+import { RegisterComponent } from './register/index';
+import { AuthGuard } from './guards/index';
 
 const routes: Routes = [
-	{ path: '', redirectTo: '/countries/:userId', pathMatch: 'full' },
+    // { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: '', component: LoginComponent },
+		// otherwise redirect to home
+		// { path: '**', redirectTo: 'login' },
+		{ path: 'login', component: LoginComponent },
+		{ path: 'register', component: RegisterComponent },
   	{ path: 'countries/:userId', component: CountryComponent },
   	{ path: 'currencies/:userId/:selectedCountryCodes', component: CurrencyComponent },
   	{ path: 'currencies/:userId', component: CurrencyComponent },
@@ -31,3 +40,5 @@ const routes: Routes = [
   exports: [ RouterModule ]
 })
 export class AppRoutingModule { }
+
+export const routing = RouterModule.forRoot(routes);
