@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable }        from 'rxjs/Observable';
 
 import { AlertService, UserService } from '../services/index';
 
@@ -18,14 +19,19 @@ export class RegisterComponent {
         private alertService: AlertService) { }
 
     register() {
+      alert('1')
         this.loading = true;
         this.userService.create(this.model)
             .subscribe(
-                data => {
+                result => {
+                  alert('3');
+                  alert(JSON.stringify(result, null, 4));
                     this.alertService.success('Registration successful', true);
-                    this.router.navigate(['/login']);
+                    this.router.navigate(['/login/']);
                 },
                 error => {
+                  alert('2')
+                  alert(JSON.stringify(error, null, 4));
                     this.alertService.error(error);
                     this.loading = false;
                 });

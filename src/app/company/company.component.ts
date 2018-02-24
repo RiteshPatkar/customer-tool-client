@@ -50,10 +50,7 @@ export class CompanyComponent implements OnInit {
     getCountryCodes() {
     const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
     const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
-    alert(selectCountryCodes);
       if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
-       alert(JSON.stringify(this.countryCodes, null, 4));
-       alert(selectCountryCodes.split(','));
        this.countryCodes = new CountryISOCodeArrayDataModel();
        this.countryCodes.countryCodes = selectCountryCodes.split(',');
          return;
@@ -66,7 +63,6 @@ export class CompanyComponent implements OnInit {
   this.isLoading = true;
   const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
   const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
-  alert(selectCountryCodes)
 
   if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
     this.companyService.getCompaniesByCountry(userId, selectCountryCodes).subscribe(companyArrayData => this.setCompanies(companyArrayData.companies))
@@ -110,10 +106,9 @@ export class CompanyComponent implements OnInit {
           (company: CompanyDataModel) => Object.assign({}, company));
 
           for(let company of companiesOnScreenDeepCopy) {
-              alert(this.activatedRoute.snapshot.paramMap.get('userId'));
               company.userId = this.activatedRoute.snapshot.paramMap.get('userId')
-              
-                            
+
+
              //populate countrycode for next
        		 this.selectedCountryCodes.push(company.country);
             }
@@ -138,19 +133,19 @@ export class CompanyComponent implements OnInit {
   if(!this.companyFormGroup.pristine){
     this.submit();
     }
-    
+
         //create unique set of country codes
     this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
     this.router.navigate(['/banks/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
   }
 
   previousTab() {
-  
+
    if(this.selectedCountryCodes.length === 0) {
   	this.router.navigate(['/calendars/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
   	} else {
   	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
-    
+
     this.router.navigate(['/calendars/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
   	}
   }

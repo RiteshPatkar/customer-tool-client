@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 data => {
                     // this.router.navigate([this.returnUrl]);
-                      this.router.navigate(['/countries/'+data]);
+                      this.router.navigate(['/countries/'+data.userId]);
                 },
                 error => {
                     this.alertService.error(error);

@@ -47,13 +47,9 @@ ngOnInit() {
 }
 
   getCountryCodes() {
-  alert('populate country codes for bank');
   const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
   const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
-  alert(selectCountryCodes);
     if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
- 	   alert(JSON.stringify(this.countryCodes, null, 4));
- 	   alert(selectCountryCodes.split(','));
  	   this.countryCodes = new CountryISOCodeArrayDataModel();
  	   this.countryCodes.countryCodes = selectCountryCodes.split(',');
        return;
@@ -66,7 +62,6 @@ getBanksFromService() {
   this.isLoading = true;
   const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
   const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
-  alert(selectCountryCodes)
   if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
 //    var countryCodeArray = selectCountryCodes.split(',');
 //    if(countryCodeArray.length > 0) {
@@ -88,8 +83,6 @@ get banksOnScreen(): FormArray {
 }
 
  setBanks(banks : BankDataModel[]) {
-  alert('IN Currenty set');
-  alert(JSON.stringify(banks, null, 4));
   const banksFormGroups = banks.map(bank => this.bankFormBuilder.group(bank));
   const bankFormArray = this.bankFormBuilder.array(banksFormGroups);
   this.bankFormGroup.setControl('banksOnScreen', bankFormArray);
@@ -114,9 +107,8 @@ get banksOnScreen(): FormArray {
 		  (bank: BankDataModel) => Object.assign({}, bank));
 
     for(let bank of banksOnScreenDeepCopy) {
-        alert(this.activatedRoute.snapshot.paramMap.get('userId'));
         bank.userId = this.activatedRoute.snapshot.paramMap.get('userId');
-                                    
+
              //populate countrycode for next
        		 this.selectedCountryCodes.push(bank.countryCode);
       }
@@ -141,7 +133,7 @@ next() {
 if(!this.bankFormGroup.pristine){
   this.submit();
   }
-  
+
           //create unique set of country codes
     this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
     this.router.navigate(['/bankbranches/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
@@ -153,7 +145,7 @@ previousTab() {
   	this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
   	} else {
   	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
-    
+
     this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
   	}
 }

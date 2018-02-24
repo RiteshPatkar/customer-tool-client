@@ -47,13 +47,9 @@ ngOnInit() {
 }
 
   getCountryCodes() {
-  alert('populate country codes for account');
   const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
   const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
-  alert(selectCountryCodes);
     if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
- 	   alert(JSON.stringify(this.countryCodes, null, 4));
- 	   alert(selectCountryCodes.split(','));
  	   this.countryCodes = new CountryISOCodeArrayDataModel();
  	   this.countryCodes.countryCodes = selectCountryCodes.split(',');
        return;
@@ -66,7 +62,6 @@ getAccountsFromService() {
   this.isLoading = true;
   const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
   const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
-  alert(selectCountryCodes)
   if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
 //    var countryCodeArray = selectCountryCodes.split(',');
 //    if(countryCodeArray.length > 0) {
@@ -88,8 +83,6 @@ get accountsOnScreen(): FormArray {
 }
 
  setAccounts(accounts : AccountDataModel[]) {
-  alert('IN Currenty set');
-  alert(JSON.stringify(accounts, null, 4));
   const accountsFormGroups = accounts.map(account => this.accountFormBuilder.group(account));
   const accountFormArray = this.accountFormBuilder.array(accountsFormGroups);
   this.accountFormGroup.setControl('accountsOnScreen', accountFormArray);
@@ -114,7 +107,6 @@ get accountsOnScreen(): FormArray {
 		  (account: AccountDataModel) => Object.assign({}, account));
 
     for(let account of accountsOnScreenDeepCopy) {
-        alert(this.activatedRoute.snapshot.paramMap.get('userId'));
         account.userId = this.activatedRoute.snapshot.paramMap.get('userId');
                      //populate countrycode for next
        		 this.selectedCountryCodes.push(account.countryCode);
@@ -146,10 +138,10 @@ previousTab() {
 
    if(this.selectedCountryCodes.length === 0) {
   	this.router.navigate(['/bankBranches/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
-  	} 
+  	}
   	else {
   	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
-    
+
     this.router.navigate(['/bankBranches/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
   	}
 }

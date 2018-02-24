@@ -22,8 +22,6 @@ export class BankService {
 /** GET Banks Based on userId **/
   getBanks(userId : number): Observable<BankArrayDataModel> {
     const url = this.url + '/'+userId;
-    alert('in get 1st')
-    alert(url)
     return this.http.get<BankArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched banks for userId = ${userId}`)),
@@ -38,7 +36,6 @@ getBanksByCountry(userId : number, countryCodes: String): Observable<BankArrayDa
 //      inputCountryCodes + ',' + countryCode;
 //    }
     const url = this.url + '/'+userId + '/' + countryCodes;
-    alert('in get ' + url)
     return this.http.get<BankArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched banks for userId = ${userId}`)),
@@ -48,7 +45,6 @@ getBanksByCountry(userId : number, countryCodes: String): Observable<BankArrayDa
 
 updateBanks(banks : BankArrayDataModel) : Observable<BankArrayDataModel> {
     const url = this.url + '/';
-    alert(JSON.stringify(banks, null, 4));
         return this.http.post<BankArrayDataModel>(url, banks, httpOptions)
       .pipe(
         tap(_ => this.log(`save ad update banks`)),
@@ -59,7 +55,6 @@ updateBanks(banks : BankArrayDataModel) : Observable<BankArrayDataModel> {
 removeBank(bank : BankDataModel) : Observable<BankDataModel> {
       let id = bank.id;
       let url = this.url+'/'+id;
-      alert(url);
       return this.http.delete<BankDataModel>(url, httpOptions)
         .pipe(
         tap(_ => this.log(`delete bank = ${bank}`)),
@@ -69,8 +64,6 @@ removeBank(bank : BankDataModel) : Observable<BankDataModel> {
 
     private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      alert('IN error');
-      alert(JSON.stringify(error, null, 4));
       console.error(error); // log to console instead
       this.log(`${operation} failed: ${error.message}`);
       // Let the app keep running by returning an empty result.

@@ -47,13 +47,9 @@ ngOnInit() {
 }
 
   getCountryCodes() {
-  alert('populate country codes for currency');
   const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
   const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
-  alert(selectCountryCodes);
     if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
- 	   alert(JSON.stringify(this.countryCodes, null, 4));
- 	   alert(selectCountryCodes.split(','));
  	   this.countryCodes = new CountryISOCodeArrayDataModel();
  	   this.countryCodes.countryCodes = selectCountryCodes.split(',');
        return;
@@ -66,7 +62,6 @@ getCurrenciesFromService() {
   this.isLoading = true;
   const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
   const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
-  alert(selectCountryCodes)
   if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
 //    var countryCodeArray = selectCountryCodes.split(',');
 //    if(countryCodeArray.length > 0) {
@@ -88,8 +83,6 @@ get currenciesOnScreen(): FormArray {
 }
 
  setCurrencies(currencies : CurrencyDataModel[]) {
-  alert('IN Currenty set');
-  alert(JSON.stringify(currencies, null, 4));
   const currenciesFormGroups = currencies.map(currency => this.currencyFormBuilder.group(currency));
   const currencyFormArray = this.currencyFormBuilder.array(currenciesFormGroups);
   this.currencyFormGroup.setControl('currenciesOnScreen', currencyFormArray);
@@ -114,7 +107,6 @@ get currenciesOnScreen(): FormArray {
 		  (currency: CurrencyDataModel) => Object.assign({}, currency));
 
     for(let currency of currenciesOnScreenDeepCopy) {
-        alert(this.activatedRoute.snapshot.paramMap.get('userId'));
         currency.userId = this.activatedRoute.snapshot.paramMap.get('userId');
         this.selectedCountryCodes.push(currency.countryCode);
       }
@@ -139,10 +131,10 @@ next() {
 if(!this.currencyFormGroup.pristine){
   this.submit();
   }
-  
+
   //create unique set of country codes
     this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
-    
+
   this.router.navigate(['/calendars/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
 }
 

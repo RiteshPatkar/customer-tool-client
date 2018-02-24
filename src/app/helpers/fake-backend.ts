@@ -8,8 +8,12 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/materialize';
 import 'rxjs/add/operator/dematerialize';
 
+//Removed use of this
+// @Injectable()
+// export class FakeBackendInterceptor implements HttpInterceptor {
+
 @Injectable()
-export class FakeBackendInterceptor implements HttpInterceptor {
+export class FakeBackendInterceptor {
 
     constructor() { }
 

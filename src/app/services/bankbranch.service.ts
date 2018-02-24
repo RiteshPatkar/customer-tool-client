@@ -22,8 +22,6 @@ export class BankBranchService {
 /** GET BankBranchs Based on userId **/
   getBankBranches(userId : number): Observable<BankBranchArrayDataModel> {
     const url = this.url + '/'+userId;
-    alert('in get 1st')
-    alert(url)
     return this.http.get<BankBranchArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched bankBranchBranches for userId = ${userId}`)),
@@ -38,7 +36,6 @@ getBankBranchesByCountry(userId : number, countryCodes: String): Observable<Bank
 //      inputCountryCodes + ',' + countryCode;
 //    }
     const url = this.url + '/'+userId + '/' + countryCodes;
-    alert('in get ' + url)
     return this.http.get<BankBranchArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched bankBranchBranches for userId = ${userId}`)),
@@ -48,7 +45,6 @@ getBankBranchesByCountry(userId : number, countryCodes: String): Observable<Bank
 
 updateBankBranches(bankBranchBranches : BankBranchArrayDataModel) : Observable<BankBranchArrayDataModel> {
     const url = this.url + '/';
-    alert(JSON.stringify(bankBranchBranches, null, 4));
         return this.http.post<BankBranchArrayDataModel>(url, bankBranchBranches, httpOptions)
       .pipe(
         tap(_ => this.log(`save ad update bankBranchBranches`)),
@@ -59,7 +55,6 @@ updateBankBranches(bankBranchBranches : BankBranchArrayDataModel) : Observable<B
 removeBankBranch(bankBranch : BankBranchDataModel) : Observable<BankBranchDataModel> {
       let id = bankBranch.id;
       let url = this.url+'/'+id;
-      alert(url);
       return this.http.delete<BankBranchDataModel>(url, httpOptions)
         .pipe(
         tap(_ => this.log(`delete bankBranch = ${bankBranch}`)),
@@ -69,8 +64,6 @@ removeBankBranch(bankBranch : BankBranchDataModel) : Observable<BankBranchDataMo
 
     private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      alert('IN error');
-      alert(JSON.stringify(error, null, 4));
       console.error(error); // log to console instead
       this.log(`${operation} failed: ${error.message}`);
       // Let the app keep running by returning an empty result.

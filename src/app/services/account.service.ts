@@ -22,8 +22,6 @@ export class AccountService {
 /** GET Accounts Based on userId **/
   getAccounts(userId : number): Observable<AccountArrayDataModel> {
     const url = this.url + '/'+userId;
-    alert('in get 1st')
-    alert(url)
     return this.http.get<AccountArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched accounts for userId = ${userId}`)),
@@ -38,7 +36,6 @@ getAccountsByCountry(userId : number, countryCodes: String): Observable<AccountA
 //      inputCountryCodes + ',' + countryCode;
 //    }
     const url = this.url + '/'+userId + '/' + countryCodes;
-    alert('in get ' + url)
     return this.http.get<AccountArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched accounts for userId = ${userId}`)),
@@ -48,7 +45,6 @@ getAccountsByCountry(userId : number, countryCodes: String): Observable<AccountA
 
 updateAccounts(accounts : AccountArrayDataModel) : Observable<AccountArrayDataModel> {
     const url = this.url + '/';
-    alert(JSON.stringify(accounts, null, 4));
         return this.http.post<AccountArrayDataModel>(url, accounts, httpOptions)
       .pipe(
         tap(_ => this.log(`save ad update accounts`)),
@@ -59,7 +55,6 @@ updateAccounts(accounts : AccountArrayDataModel) : Observable<AccountArrayDataMo
 removeAccount(account : AccountDataModel) : Observable<AccountDataModel> {
       let id = account.id;
       let url = this.url+'/'+id;
-      alert(url);
       return this.http.delete<AccountDataModel>(url, httpOptions)
         .pipe(
         tap(_ => this.log(`delete account = ${account}`)),
@@ -69,8 +64,6 @@ removeAccount(account : AccountDataModel) : Observable<AccountDataModel> {
 
     private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      alert('IN error');
-      alert(JSON.stringify(error, null, 4));
       console.error(error); // log to console instead
       this.log(`${operation} failed: ${error.message}`);
       // Let the app keep running by returning an empty result.
