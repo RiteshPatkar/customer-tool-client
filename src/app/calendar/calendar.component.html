@@ -1,5 +1,7 @@
 <p>Form value: {{ calendarFormGroup.value | json }}</p>
-<p>Form status: {{ calendarFormGroup.status | json }}</p>
+<p>Form value: {{ dateAndFlagFormGroup.value | json }}</p>
+<p>Form status: {{ calendarFormGroup.status | json }}</p> 
+
 
 <form [formGroup]="calendarFormGroup" (ngSubmit)="submit()"  novalidate>
 	<div  formArrayName="calendarsOnScreen" class="well well-lg">
@@ -17,16 +19,20 @@
 					<td class="form-group"><input class="form-control" formControlName="calendarDescription"></td>
 					<td class="form-group"><input class="form-control" formControlName="closedDays"></td>
 					 <td colspan="2" class="form-group">
-					<div  formArrayName="datesAndFlags" class="well well-lg">
+					 <div  formArrayName="datesAndFlags" class="well well-lg">
 						<div style="overflow-x: auto;">
 						<table>
-							<tr *ngFor="let dateAndFlag of datesAndFlags.controls; let j=index" [formGroupName]="j">
+							<tr *ngFor="let dateAndFlag of calendar.controls['datesAndFlags'].controls; let j=index" [formGroupName]="j">
 								<td class="form-group"><input class="form-control" formControlName="date"></td>
 								<td class="form-group"><input class="form-control" formControlName="flag"></td>
 							</tr>
+							<tr>
+							<button type="button" (click)="add1()" class="btn btn-danger">Add Date And Flag</button> &nbsp;
+							</tr>
 						</table>
 						</div>
-					</div>
+					</div>  
+					  <!--<textarea class="form-control">{{calendar.get('datesAndFlags').value}}</textarea>-->
 					</td>
 					<td><button type="button" (click)="delete(i, calendar)" class="btn btn-success">Delete</button></td>
 
@@ -44,9 +50,3 @@
 		<!--  <button type="reset" (click)="revert()" [disabled]="countryFormGroup.pristine" class="btn btn-danger">Revert</button> -->
 	</div>
 </form>
-
-
-
-<!--
-<p>Form value: {{ currencyFormGroup.value | json }}</p>
-<p>Form status: {{ currencyFormGroup.status | json }}</p>  -->

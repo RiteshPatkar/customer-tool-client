@@ -15,6 +15,7 @@ export class CalendarDataModel {
 }
 
 export class DateAndFlagDataModel {
+  id = 0;	
   flag='';
   date='';
 }

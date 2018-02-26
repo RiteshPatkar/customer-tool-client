@@ -135,14 +135,14 @@ delete(i : number, account : AccountDataModel) {
   }
 
 previousTab() {
-
+    
    if(this.selectedCountryCodes.length === 0) {
-  	this.router.navigate(['/bankBranches/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+  	this.router.navigate(['/bankbranches/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
   	}
   	else {
   	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
 
-    this.router.navigate(['/bankBranches/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+    this.router.navigate(['/bankbranches/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
   	}
 }
 }
