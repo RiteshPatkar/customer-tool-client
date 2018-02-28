@@ -19,7 +19,7 @@
 					<td class="form-group"><input class="form-control" formControlName="calendarDescription"></td>
 					<td class="form-group"><input class="form-control" formControlName="closedDays"></td>
 					 <td colspan="2" class="form-group">
-					 <div  formArrayName="datesAndFlags" class="well well-lg">
+					 <div formArrayName="datesAndFlags" class="well well-lg">
 						<div style="overflow-x: auto;">
 						<table>
 							<tr *ngFor="let dateAndFlag of calendar.controls['datesAndFlags'].controls; let j=index" [formGroupName]="j">
@@ -27,7 +27,7 @@
 								<td class="form-group"><input class="form-control" formControlName="flag"></td>
 							</tr>
 							<tr>
-							<button type="button" (click)="add1()" class="btn btn-danger">Add Date And Flag</button> &nbsp;
+							<button type="button" (click)="addDateAndFlag(i)" class="btn btn-danger">Add Date And Flag</button> &nbsp;
 							</tr>
 						</table>
 						</div>

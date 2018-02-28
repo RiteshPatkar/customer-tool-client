@@ -11,6 +11,8 @@ import {CALENDARS} from '../mock-data/mock-calendars';
 import {CalendarService} from '../services/calendar.service';
 import { CountryService } from '../services/country.service';
 
+//import 'circular-json';
+
 @Component({
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
@@ -26,7 +28,7 @@ export class CalendarComponent implements OnInit {
     showNewRow = false;
     countryCodes: CountryISOCodeArrayDataModel;
     selectedCountryCodes: string[] = [];
-
+       
     constructor(
         private calendarFormBuilder: FormBuilder,
         private router: Router,
@@ -42,43 +44,6 @@ export class CalendarComponent implements OnInit {
             calendarsOnScreen: this.calendarFormBuilder.array([])
         });
     }
-
-
-//    createFormGroup() {
-//        this.calendarFormGroup = this.calendarFormBuilder.group({
-//            calendarsOnScreen: this.calendarFormBuilder.array([{
-//            id: 0,
-//            userId: '',
-//            countryCode : '',
-//            calendarCode:'', 
-//            calendarDescription:'', 
-//            closedDays:'',
-//            datesAndFlags: this.calendarFormBuilder.array([{
-//                  id : 0,
-//                  flag:'',
-//                  date:''
-//                }])
-//            }])
-//        });
-//    }
-    
-   
-      
-//    init1() {
-//        return this.calendarFormBuilder.group({
-//            calendarCode: [''],
-//            calendarDescription: [''],
-//            closedDays: [''],
-//            datesAndFlags: this.calendarFormBuilder.array([this.init2()])
-//        });
-//    }
-//
-//    init2() {
-//        return this.calendarFormBuilder.group({
-//            date: [''],
-//            flag: ['']
-//        });
-//    }
 
     createChildFormGroup() {
         this.dateAndFlagFormGroup = this.calendarFormBuilder.group({
@@ -116,6 +81,21 @@ export class CalendarComponent implements OnInit {
         //	.finally(() => this.isLoading = false);
     }
 
+    setCalendars(calendars: CalendarDataModel[]) {
+        const calendarsFormGroups = calendars.map(calendar => this.buildEachCalendarForm(calendar));
+        const calendarFormArray = this.calendarFormBuilder.array(calendarsFormGroups);
+        this.calendarFormGroup.setControl('calendarsOnScreen', calendarFormArray);
+    }
+
+    buildEachCalendarForm(calendar: CalendarDataModel) {
+        let formGroup = this.calendarFormBuilder.group(calendar);
+        const dateAndFlagsFormGroups = (calendar.datesAndFlags).map(dateAndFlag => this.calendarFormBuilder.group(dateAndFlag));
+        const dateAndFlagFormArray = this.calendarFormBuilder.array(dateAndFlagsFormGroups);
+        
+        formGroup.setControl('datesAndFlags', dateAndFlagFormArray);
+        return formGroup;
+    }
+    
     ngOnChanges() {
         this.calendarFormGroup.reset({
         });
@@ -127,53 +107,31 @@ export class CalendarComponent implements OnInit {
         return this.calendarFormGroup.get('calendarsOnScreen') as FormArray
     }
 
-    get datesAndFlags(): FormArray {
-        return this.dateAndFlagFormGroup.get('dateAndFlags') as FormArray
+    addDatesAndFlags(i: number): FormArray {
+        var array = this.calendarFormGroup.get('calendarsOnScreen') as FormArray;
+        var group = array.at(i) as FormGroup
+        return group.get('datesAndFlags') as FormArray;
     }
-
-
-    setCalendars(calendars: CalendarDataModel[]) {
-        alert('*** IN Calendar set');
-        alert(JSON.stringify(calendars, null, 4));
-        const calendarsFormGroups = calendars.map(calendar => this.buildEachCalendarForm(calendar));
-        const calendarFormArray = this.calendarFormBuilder.array(calendarsFormGroups);
-        this.calendarFormGroup.setControl('calendarsOnScreen', calendarFormArray);
-    }
-
-    buildEachCalendarForm(calendar: CalendarDataModel) {
-        alert('buildEachCalendarForm');
-        alert(JSON.stringify(calendar));
-        let formGroup = this.calendarFormBuilder.group(calendar);
-        
-        const dateAndFlagsFormGroups = <DateAndFlagDataModel[]>(calendar.datesAndFlags).map(dateAndFlag => this.calendarFormBuilder.group(dateAndFlag));
-        const dateAndFlagFormArray = this.calendarFormBuilder.array(dateAndFlagsFormGroups);
-        
-//        this.setChildDateAndFlag(calendar.datesAndFlags);
-        
-        formGroup.setControl('datesAndFlags', dateAndFlagFormArray);
-        
-        return formGroup;
-    }
-
-//    setChildDateAndFlag(dateAndFlags: DateAndFlagDataModel[]) {
-//        alert('setChildDateAndFlag');
-//        alert(JSON.stringify(dateAndFlags));
-//        const dateAndFlagsFormGroups = dateAndFlags.map(dateAndFlag => this.calendarFormBuilder.group(dateAndFlag));
-//        const dateAndFlagFormArray = this.calendarFormBuilder.array(dateAndFlagsFormGroups);
-////        const array = (<FormArray>this.formGroup.controls['datesAndFlags']) as FormArray;
-//        return this.dateAndFlagFormGroup.setControl('datesAndFlagsOnScreen', dateAndFlagFormArray);
-//    }
 
     add() {
-        alert('add');
         this.showNewRow = true;
-        this.calendarsOnScreen.push(this.calendarFormBuilder.group(new CalendarDataModel()));
+        
+        var group = this.calendarFormBuilder.group({
+            id : 0,
+            userId :'',
+            countryCode :'',
+            calendarCode:'',
+            calendarDescription:'',
+            closedDays:'',
+            datesAndFlags : this.calendarFormBuilder.array([])
+            });
+        
+        this.calendarsOnScreen.push(group);
     }
     
-     add1() {
-        alert('add1');
+     addDateAndFlag(i: number) {
         this.showNewRow = true;
-        this.datesAndFlags.push(this.calendarFormBuilder.group(new DateAndFlagDataModel()));
+        this.addDatesAndFlags(i).push(this.calendarFormBuilder.group(new DateAndFlagDataModel()));
     }
 
     submit() {

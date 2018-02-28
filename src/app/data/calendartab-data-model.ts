@@ -11,7 +11,7 @@ export class CalendarDataModel {
   calendarCode='';
   calendarDescription='';
   closedDays='';
-  datesAndFlags : DateAndFlagDataModel[];
+  datesAndFlags : DateAndFlagDataModel[] = [];
 }
 
 export class DateAndFlagDataModel {
