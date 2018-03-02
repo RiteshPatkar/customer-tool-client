@@ -22,8 +22,6 @@ export class CurrencyService {
 /** GET Currencies Based on userId **/
   getCurrencies(userId : number): Observable<CurrencyArrayDataModel> {
     const url = this.url + '/'+userId;
-    alert('in get 1st')
-    alert(url)
     return this.http.get<CurrencyArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched currencies for userId = ${userId}`)),
@@ -38,7 +36,6 @@ getCurrenciesByCountry(userId : number, countryCodes: String): Observable<Curren
 //      inputCountryCodes + ',' + countryCode;
 //    }
     const url = this.url + '/'+userId + '/' + countryCodes;
-    alert('in get ' + url)
     return this.http.get<CurrencyArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched currencies for userId = ${userId}`)),
@@ -48,7 +45,6 @@ getCurrenciesByCountry(userId : number, countryCodes: String): Observable<Curren
 
 updateCurrencies(currencies : CurrencyArrayDataModel) : Observable<CurrencyArrayDataModel> {
     const url = this.url + '/';
-    alert(JSON.stringify(currencies, null, 4));
         return this.http.post<CurrencyArrayDataModel>(url, currencies, httpOptions)
       .pipe(
         tap(_ => this.log(`save ad update currencies`)),
@@ -59,7 +55,6 @@ updateCurrencies(currencies : CurrencyArrayDataModel) : Observable<CurrencyArray
 removeCurrency(currency : CurrencyDataModel) : Observable<CurrencyDataModel> {
       let id = currency.id;
       let url = this.url+'/'+id;
-      alert(url);
       return this.http.delete<CurrencyDataModel>(url, httpOptions)
         .pipe(
         tap(_ => this.log(`delete currency = ${currency}`)),
@@ -69,8 +64,6 @@ removeCurrency(currency : CurrencyDataModel) : Observable<CurrencyDataModel> {
 
     private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      alert('IN error');
-      alert(JSON.stringify(error, null, 4));
       console.error(error); // log to console instead
       this.log(`${operation} failed: ${error.message}`);
       // Let the app keep running by returning an empty result.

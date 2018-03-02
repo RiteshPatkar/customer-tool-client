@@ -22,8 +22,6 @@ export class CalendarService {
 /** GET Calendars Based on userId **/
   getCalendars(userId : number): Observable<CalendarArrayDataModel> {
     const url = this.url + '/'+userId;
-    alert('in get 1st')
-    alert(url)
     return this.http.get<CalendarArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched calendars for userId = ${userId}`)),
@@ -38,7 +36,6 @@ getCalendarsByCountry(userId : number, countryCodes: String): Observable<Calenda
 //      inputCountryCodes + ',' + countryCode;
 //    }
     const url = this.url + '/'+userId + '/' + countryCodes;
-    alert('in get ' + url)
     return this.http.get<CalendarArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched calendars for userId = ${userId}`)),
@@ -48,7 +45,6 @@ getCalendarsByCountry(userId : number, countryCodes: String): Observable<Calenda
 
 updateCalendars(calendars : CalendarArrayDataModel) : Observable<CalendarArrayDataModel> {
     const url = this.url + '/';
-    alert(JSON.stringify(calendars, null, 4));
         return this.http.post<CalendarArrayDataModel>(url, calendars, httpOptions)
       .pipe(
         tap(_ => this.log(`save ad update calendars`)),
@@ -59,7 +55,6 @@ updateCalendars(calendars : CalendarArrayDataModel) : Observable<CalendarArrayDa
 removeCalendar(calendar : CalendarDataModel) : Observable<CalendarDataModel> {
       let id = calendar.id;
       let url = this.url+'/'+id;
-      alert(url);
       return this.http.delete<CalendarDataModel>(url, httpOptions)
         .pipe(
         tap(_ => this.log(`delete calendar = ${calendar}`)),
@@ -69,8 +64,6 @@ removeCalendar(calendar : CalendarDataModel) : Observable<CalendarDataModel> {
 
     private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      alert('IN error');
-      alert(JSON.stringify(error, null, 4));
       console.error(error); // log to console instead
       this.log(`${operation} failed: ${error.message}`);
       // Let the app keep running by returning an empty result.

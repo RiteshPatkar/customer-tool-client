@@ -143,6 +143,6 @@ export class CurrencyComponent implements OnInit {
     }
 
     nextTab() {
-        this.router.navigate(['/calendars' + this.activatedRoute.snapshot.paramMap.get('userId')]);
+        this.router.navigate(['/calendars/' + this.activatedRoute.snapshot.paramMap.get('userId')]);
     }
 }

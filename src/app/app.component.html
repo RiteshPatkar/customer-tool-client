@@ -1,6 +1,6 @@
 <h1>Customer Management Tool</h1>
 <alert></alert>
-<nav class=".nav-justified">
+<nav *ngIf="showTabs" (loggedInEvent)="loggedInState($event)" class=".nav-justified">
   <a routerLink="/countries">Country</a>
   <a routerLink="/currencies">Currency</a>
   <a routerLink="/calendars">Calendar</a>

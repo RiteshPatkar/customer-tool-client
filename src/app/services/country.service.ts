@@ -22,9 +22,6 @@ export class CountryService {
   /** GET Countries Based on userId **/
   getCountries(userId : number): Observable<CountryArrayDataModel> {
     const url = this.countryUrl + '/user/'+userId;
-    alert('in get')
-    alert(userId);
-    alert(url)
     return this.http.get<CountryArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched countries for userId = ${userId}`)),
@@ -47,7 +44,6 @@ export class CountryService {
   removeCountry(country : CountryDataModel) : Observable<CountryDataModel> {
     let id = country.id;
     let url = this.countryUrl+'/'+id;
-    alert(url);
     return this.http.delete<CountryDataModel>(url, httpOptions)
         .pipe(
         tap(_ => this.log(`delete country = ${country}`)),
@@ -57,7 +53,6 @@ export class CountryService {
   
   updateCountries(countries : CountryArrayDataModel) : Observable<CountryArrayDataModel> {
     const url = this.countryUrl + '/';
-    alert(JSON.stringify(countries, null, 4));
         return this.http.post<CountryArrayDataModel>(url, countries, httpOptions)
       .pipe(
         tap(_ => this.log(`save ad update countries`)),
@@ -67,8 +62,6 @@ export class CountryService {
   
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      alert('IN error');
-      alert(JSON.stringify(error, null, 4));
       console.error(error); // log to console instead
       this.log(`${operation} failed: ${error.message}`);
       // Let the app keep running by returning an empty result.

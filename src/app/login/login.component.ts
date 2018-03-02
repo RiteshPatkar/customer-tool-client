@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AlertService, AuthenticationService } from '../services/index';
@@ -9,6 +9,7 @@ import { AlertService, AuthenticationService } from '../services/index';
 })
 
 export class LoginComponent implements OnInit {
+    @Output() loggedInEvent: EventEmitter<string> = new EventEmitter<string>();
     model: any = {};
     loading = false;
     returnUrl: string;
@@ -33,6 +34,7 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 data => {
                     // this.router.navigate([this.returnUrl]);
+                    this.loggedInEvent.emit('loggedIn');
                       this.router.navigate(['/countries/'+data.userId]);
                 },
                 error => {

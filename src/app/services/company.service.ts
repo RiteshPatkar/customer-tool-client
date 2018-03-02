@@ -21,8 +21,6 @@ export class CompanyService {
 
   getCompanies(userId : number): Observable<CompanyArrayDataModel> {
     const url = this.url + '/'+userId;
-    alert('in get 1st')
-    alert(url)
     return this.http.get<CompanyArrayDataModel>(url)
       .pipe(
         tap(_ => this.log(`fetched companies for userId = ${userId}`)),
@@ -33,7 +31,6 @@ export class CompanyService {
   getCompaniesByCountry(userId : number, countryCodes: String): Observable<CompanyArrayDataModel> {
 
       const url = this.url + '/'+userId + '/' + countryCodes;
-      alert('in get ' + url)
       return this.http.get<CompanyArrayDataModel>(url)
         .pipe(
           tap(_ => this.log(`fetched companies for userId = ${userId}`)),
@@ -44,7 +41,6 @@ export class CompanyService {
 
   updateCompanies(companies : CompanyArrayDataModel) : Observable<CompanyArrayDataModel> {
       const url = this.url + '/';
-      alert(JSON.stringify(companies, null, 4));
           return this.http.post<CompanyArrayDataModel>(url, companies, httpOptions)
         .pipe(
           tap(_ => this.log(`save ad update companies`)),
@@ -55,7 +51,6 @@ export class CompanyService {
   removeCompany(company : CompanyDataModel) :  Observable<CompanyDataModel> {
         let id = company.id;
         let url = this.url+'/'+id;
-        alert(url);
         return this.http.delete<CompanyDataModel>(url, httpOptions)
           .pipe(
           tap(_ => this.log(`delete company = ${company}`)),
@@ -65,8 +60,6 @@ export class CompanyService {
 
   private handleError<T> (operation = 'operation', result?: T) {
   return (error: any): Observable<T> => {
-    alert('IN error');
-    alert(JSON.stringify(error, null, 4));
     console.error(error); // log to console instead
     this.log(`${operation} failed: ${error.message}`);
     // Let the app keep running by returning an empty result.

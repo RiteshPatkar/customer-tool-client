@@ -135,7 +135,6 @@ export class CalendarComponent implements OnInit {
     }
 
     submit() {
-        alert('submit');
         this.showNewRow = false;
         this.calendarArrayData = this.prepareForSubmit();
         this.calendarService.updateCalendars(this.calendarArrayData).subscribe();
@@ -144,12 +143,10 @@ export class CalendarComponent implements OnInit {
     }
 
     prepareForSubmit(): CalendarArrayDataModel {
-        alert('preparesubmit');
         const formModel = this.calendarFormGroup.value;
         const calendarsOnScreenDeepCopy: CalendarDataModel[] = formModel.calendarsOnScreen.map(
             (calendar: CalendarDataModel) => Object.assign({}, calendar));
         for (let calendar of calendarsOnScreenDeepCopy) {
-            alert(this.activatedRoute.snapshot.paramMap.get('userId'));
             calendar.userId = this.activatedRoute.snapshot.paramMap.get('userId');
             this.selectedCountryCodes.push(calendar.countryCode);
         }
@@ -161,13 +158,10 @@ export class CalendarComponent implements OnInit {
     }
 
     revert() {
-        alert('revert');
         this.ngOnChanges();
     }
 
     delete(i: number, calendar: CalendarDataModel) {
-        alert('delete');
-
         this.calendarService.removeCalendar(calendar);
         this.calendarsOnScreen.removeAt(i);
     }
