@@ -43,13 +43,20 @@ export class CompanyComponent implements OnInit {
   }
 
   ngOnInit() {
+  
+     if(JSON.parse(localStorage.getItem('currentUser')) == null || JSON.parse(localStorage.getItem('currentUser')) == '') {
+          this.router.navigate(['']);
+      }
+  
     this.getCompaniesFromService();
     this.getCountryCodes();
     }
 
     getCountryCodes() {
     const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
-    const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
+   let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
       if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {
        this.countryCodes = new CountryISOCodeArrayDataModel();
        this.countryCodes.countryCodes = selectCountryCodes.split(',');
@@ -61,7 +68,9 @@ export class CompanyComponent implements OnInit {
 
   getCompaniesFromService() {
   this.isLoading = true;
-  const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
+          let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
   const selectCountryCodes = this.activatedRoute.snapshot.paramMap.get('selectedCountryCodes');
 
   if(selectCountryCodes != null && selectCountryCodes != 'undefined' && selectCountryCodes.length > 0) {

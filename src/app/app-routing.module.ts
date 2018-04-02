@@ -21,18 +21,25 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'countries/:userId', component: CountryComponent },
+    { path: 'countries', component: CountryComponent },
     { path: 'currencies/:userId/:selectedCountryCodes', component: CurrencyComponent },
     { path: 'currencies/:userId', component: CurrencyComponent },
+    { path: 'currencies', component: CurrencyComponent },
     { path: 'calendars/:userId/:selectedCountryCodes', component: CalendarComponent },
     { path: 'calendars/:userId', component: CalendarComponent },
+    { path: 'calendars', component: CalendarComponent },
     { path: 'companies/:userId/:selectedCountryCodes', component: CompanyComponent },
     { path: 'companies/:userId', component: CompanyComponent },
+    { path: 'companies', component: CompanyComponent },
     { path: 'banks/:userId/:selectedCountryCodes', component: BankComponent },
     { path: 'banks/:userId', component: BankComponent },
+    { path: 'banks', component: BankComponent },
     { path: 'bankbranches/:userId/:selectedCountryCodes', component: BankBranchComponent },
     { path: 'bankbranches/:userId', component: BankBranchComponent },
+    { path: 'bankbranches', component: BankBranchComponent },
     { path: 'accounts/:userId/:selectedCountryCodes', component: AccountComponent },
-    { path: 'accounts/:userId', component: AccountComponent }
+    { path: 'accounts/:userId', component: AccountComponent },
+    { path: 'accounts', component: AccountComponent }
 ];
 
 @NgModule({
@@ -42,3 +49,5 @@ const routes: Routes = [
 export class AppRoutingModule { }
 
 export const routing = RouterModule.forRoot(routes);
+
+ 

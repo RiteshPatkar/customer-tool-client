@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
         private alertService: AlertService) { }
 
     ngOnInit() {
+        localStorage.removeItem('currentUser');
         // reset login status
         this.authenticationService.logout();
 

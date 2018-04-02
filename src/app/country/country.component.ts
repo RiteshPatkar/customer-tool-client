@@ -49,7 +49,15 @@ export class CountryComponent implements OnInit {
   }
 
   getCountriesFromService() {
-   const userId = +this.activatedRoute.snapshot.paramMap.get('userId');
+
+   if(JSON.parse(localStorage.getItem('currentUser')) == null || JSON.parse(localStorage.getItem('currentUser')) == '') {
+          this.router.navigate(['']);
+      }
+      
+      let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
+      
 	this.isLoading = true;
 	this.countryService.getCountries(userId).subscribe(countryArrayData => this.setCountries(countryArrayData.userCountries))
 		//	.finally(() => this.isLoading = false);
@@ -91,7 +99,9 @@ export class CountryComponent implements OnInit {
       
       for(let country of countriesOnScreenDeepCopy) {
         //populate userid for service pojo
-        country.userId = this.activatedRoute.snapshot.paramMap.get('userId')
+        country.userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
         
         //populate countrycode for next
         if('Y' == country.flag){
@@ -122,12 +132,21 @@ export class CountryComponent implements OnInit {
     
     //create unique set of country codes
     this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
+      
+    let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
     
-    this.router.navigate(['/currencies/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+    this.router.navigate(['/currencies/'+ userId +'/'+this.selectedCountryCodes]);
   }
    
   nextTab() {
-  	this.router.navigate(['/currencies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+      
+    let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
+      
+  	this.router.navigate(['/currencies/'+ userId]);
   }
 
 }

@@ -13,6 +13,10 @@ export class AuthenticationService {
     login(username: string, password: string) {
         return this.http.post<any>(this.url, { username: username, password: password })
             .map(user => {
+                
+                if(user) {
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    }
 
               //Removed token and local storage for now
                 // // login successful if there's a jwt token in the response
