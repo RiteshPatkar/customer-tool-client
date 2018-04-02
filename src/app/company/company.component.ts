@@ -115,8 +115,9 @@ export class CompanyComponent implements OnInit {
           (company: CompanyDataModel) => Object.assign({}, company));
 
           for(let company of companiesOnScreenDeepCopy) {
-              company.userId = this.activatedRoute.snapshot.paramMap.get('userId')
-
+              company.userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
 
              //populate countrycode for next
        		 this.selectedCountryCodes.push(company.country);
@@ -145,21 +146,31 @@ export class CompanyComponent implements OnInit {
 
         //create unique set of country codes
     this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
-    this.router.navigate(['/banks/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+      
+         let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
+      
+    this.router.navigate(['/banks/'+userId+'/'+this.selectedCountryCodes]);
   }
 
   previousTab() {
-
+   let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
    if(this.selectedCountryCodes.length === 0) {
-  	this.router.navigate(['/calendars/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+  	this.router.navigate(['/calendars/'+userId]);
   	} else {
   	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
 
-    this.router.navigate(['/calendars/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+    this.router.navigate(['/calendars/'+userId+'/'+this.selectedCountryCodes]);
   	}
   }
 
   nextTab() {
-    this.router.navigate(['/banks/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+         let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
+    this.router.navigate(['/banks/'+userId]);
   }
 }

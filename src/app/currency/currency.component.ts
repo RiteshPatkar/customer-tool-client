@@ -115,7 +115,9 @@ export class CurrencyComponent implements OnInit {
             (currency: CurrencyDataModel) => Object.assign({}, currency));
 
         for (let currency of currenciesOnScreenDeepCopy) {
-            currency.userId = this.activatedRoute.snapshot.paramMap.get('userId');
+            currency.userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
             this.selectedCountryCodes.push(currency.countryCode);
         }
 
@@ -143,14 +145,27 @@ export class CurrencyComponent implements OnInit {
         //create unique set of country codes
         this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
 
-        this.router.navigate(['/calendars/' + this.activatedRoute.snapshot.paramMap.get('userId') + '/' + this.selectedCountryCodes]);
+            let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
+        
+        this.router.navigate(['/calendars/' + userId + '/' + this.selectedCountryCodes]);
     }
 
     previousTab() {
-        this.router.navigate(['/countries/' + this.activatedRoute.snapshot.paramMap.get('userId')]);
+        
+            let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
+        
+        this.router.navigate(['/countries/' + userId]);
     }
 
     nextTab() {
-        this.router.navigate(['/calendars/' + this.activatedRoute.snapshot.paramMap.get('userId')]);
+        
+            let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
+        this.router.navigate(['/calendars/' + userId]);
     }
 }

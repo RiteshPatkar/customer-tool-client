@@ -116,7 +116,9 @@ get banksOnScreen(): FormArray {
 		  (bank: BankDataModel) => Object.assign({}, bank));
 
     for(let bank of banksOnScreenDeepCopy) {
-        bank.userId = this.activatedRoute.snapshot.paramMap.get('userId');
+        bank.userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
 
              //populate countrycode for next
        		 this.selectedCountryCodes.push(bank.countryCode);
@@ -145,21 +147,34 @@ if(!this.bankFormGroup.pristine){
 
           //create unique set of country codes
     this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
-    this.router.navigate(['/bankbranches/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+    
+       let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
+    
+    this.router.navigate(['/bankbranches/'+userId+'/'+this.selectedCountryCodes]);
 }
 
 previousTab() {
+    
+       let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
 
    if(this.selectedCountryCodes.length === 0) {
-  	this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+  	this.router.navigate(['/companies/'+userId]);
   	} else {
   	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
 
-    this.router.navigate(['/companies/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+    this.router.navigate(['/companies/'+userId+'/'+this.selectedCountryCodes]);
   	}
 }
 
 nextTab() {
-this.router.navigate(['/bankbranches/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+    
+       let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId');
+this.router.navigate(['/bankbranches/'+userId]);
 }
 }

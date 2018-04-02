@@ -116,7 +116,9 @@ get accountsOnScreen(): FormArray {
 		  (account: AccountDataModel) => Object.assign({}, account));
 
     for(let account of accountsOnScreenDeepCopy) {
-        account.userId = this.activatedRoute.snapshot.paramMap.get('userId');
+        account.userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId')
                      //populate countrycode for next
        		 this.selectedCountryCodes.push(account.countryCode);
       }
@@ -144,14 +146,18 @@ delete(i : number, account : AccountDataModel) {
   }
 
 previousTab() {
+    let userId = (this.activatedRoute.snapshot.paramMap.get('userId') == null) 
+                    ? JSON.parse(localStorage.getItem('currentUser')).userId 
+                    : +this.activatedRoute.snapshot.paramMap.get('userId')
+    
     
    if(this.selectedCountryCodes.length === 0) {
-  	this.router.navigate(['/bankbranches/'+this.activatedRoute.snapshot.paramMap.get('userId')]);
+  	this.router.navigate(['/bankbranches/'+userId]);
   	}
   	else {
   	this.selectedCountryCodes = Array.from(new Set(this.selectedCountryCodes.map((itemInArray) => itemInArray)));
 
-    this.router.navigate(['/bankbranches/'+this.activatedRoute.snapshot.paramMap.get('userId')+'/'+this.selectedCountryCodes]);
+    this.router.navigate(['/bankbranches/'+userId+'/'+this.selectedCountryCodes]);
   	}
 }
 }
