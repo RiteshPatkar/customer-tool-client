@@ -120,7 +120,7 @@ export class CompanyComponent implements OnInit {
                     : +this.activatedRoute.snapshot.paramMap.get('userId');
 
              //populate countrycode for next
-       		 this.selectedCountryCodes.push(company.country);
+       		 this.selectedCountryCodes.push(company.countryCode);
             }
 
     const saveCompanyArrayDataModel : CompanyArrayDataModel = {

@@ -26,7 +26,7 @@ export class CompanyDataModel {
   city = '';
   zip = '';
   state = '';
-  country = '';
+  countryCode = '';
   homePage = '';
   contactName = '';
   contactDepartment = '';
